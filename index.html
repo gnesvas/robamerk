@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fan Hub — UI Demo</title>
+  <meta name="description" content="Roblox-themed UI demo (no real currency generation).">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <style>
+    :root{
+      --bg:#070a12;
+      --card:#0e1422cc;
+      --card-border:#18233a;
+      --txt:#e9f0ff;
+      --muted:#9db3d9;
+      --accent1:#6bdcff;
+      --accent2:#7b5cff;
+      --accent3:#00ffa6;
+      --good:#00d68f;
+      --warn:#ffd15c;
+      --danger:#ff6b6b;
+      --glass:rgba(255,255,255,.06);
+      --shadow:0 8px 40px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+      color:var(--txt);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1a2440 0%, transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, #0f2744 0%, transparent 60%),
+        linear-gradient(180deg, #06080f, #0a0f1b 60%, #06080f);
+      overflow-x:hidden;
+    }
+    .stars{
+      pointer-events:none; position:fixed; inset:0; background:
+        radial-gradient(2px 2px at 20% 30%, #8be3ff66 50%, transparent 60%),
+        radial-gradient(1px 1px at 70% 10%, #8be3ff66 50%, transparent 60%),
+        radial-gradient(1.5px 1.5px at 40% 80%, #00ffa666 50%, transparent 60%),
+        radial-gradient(1px 1px at 85% 60%, #7b5cff66 50%, transparent 60%);
+      filter:blur(.2px);
+      animation: twinkle 6s linear infinite alternate;
+    }
+    @keyframes twinkle { to { opacity:.6; transform:scale(1.02)} }
+
+    .wrap{
+      min-height:100dvh; display:grid; place-items:center; padding:28px;
+    }
+    .card{
+      width:min(920px, 96vw);
+      background:linear-gradient(180deg, #0b1222ad, #0b122290), var(--glass);
+      border:1px solid var(--card-border);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow:hidden;
+      position:relative;
+      backdrop-filter: blur(10px);
+    }
+    .card::before{
+      content:""; position:absolute; inset:0;
+      background: conic-gradient(from 0deg at 50% 50%, transparent 0 140deg, #6bdcff22 160deg 200deg, transparent 220deg 360deg);
+      filter: blur(24px); opacity:.6; pointer-events:none;
+    }
+    header{
+      padding:28px 28px 0 28px;
+      display:flex; align-items:center; gap:16px; justify-content:space-between;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      font-weight:700; letter-spacing:.3px;
+    }
+    .badge{
+      padding:.35rem .7rem; border-radius:999px; font-size:.78rem;
+      background:linear-gradient(90deg, var(--accent1), var(--accent2)); color:#071018;
+      font-weight:800; text-transform:uppercase;
+      box-shadow: 0 6px 20px #6bdcff33;
+    }
+    .hero{
+      padding:8px 28px 18px 28px;
+    }
+    .h1{
+      font-size: clamp(24px, 2.2vw + 12px, 40px);
+      line-height:1.15; margin:6px 0 8px 0; font-weight:900;
+      background:linear-gradient(90deg, #e9f0ff, #a3beff 50%, #e9f0ff);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .sub{color:var(--muted); max-width:70ch}
+
+    .grid{
+      display:grid; gap:22px; padding:22px 28px 32px 28px;
+      grid-template-columns: 1.1fr .9fr;
+    }
+    @media (max-width:860px){ .grid{ grid-template-columns:1fr } }
+
+    .panel{
+      padding:18px; border:1px solid var(--card-border); border-radius:14px;
+      background: linear-gradient(180deg, #10162a, #0c1324);
+      position:relative; isolation:isolate;
+    }
+
+    .label{ font-size:.9rem; color:#c8d7ff; opacity:.95; margin-bottom:8px; display:block }
+    .input{
+      width:100%; padding:14px 16px; border-radius:12px; border:1px solid #1c2a49;
+      background:#0c1428; color:var(--txt); font-size:1rem; outline:none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .1s ease;
+    }
+    .input:focus{ border-color:#2f4ea3; box-shadow:0 0 0 6px #5b7cff22 }
+
+    .amounts{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:10px;
+    }
+    @media (max-width:520px){ .amounts{ grid-template-columns:repeat(2,1fr) } }
+    .amt{
+      position:relative;
+    }
+    .amt input{ position:absolute; inset:0; opacity:0; }
+    .amt label{
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      border:1px solid #1c2a49; border-radius:12px; padding:14px 10px; cursor:pointer;
+      background: linear-gradient(180deg, #0d1530, #0b1226);
+      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+      user-select:none; font-weight:800; letter-spacing:.2px;
+    }
+    .amt label .chip{
+      font-size:.78rem; padding:.25rem .5rem; border-radius:999px;
+      background:#122148; color:#b7cbff; border:1px solid #1f2d54;
+    }
+    .amt input:checked + label{
+      border-color:#3d59ff;
+      box-shadow: 0 8px 25px #3d59ff3a, inset 0 0 0 1px #4a69ff;
+      transform: translateY(-2px);
+      background:
+        linear-gradient(180deg, #121b3f, #0e1531),
+        radial-gradient(500px 160px at 50% -60px, #6bdcff22, transparent 60%);
+    }
+
+    .cta{
+      display:flex; gap:12px; align-items:center; justify-content:flex-end; margin-top:16px;
+    }
+    .btn{
+      --grad: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      position:relative; overflow:hidden; border:none; cursor:pointer;
+      padding:14px 18px; border-radius:12px; font-weight:900; letter-spacing:.3px; font-size:1rem;
+      background: var(--grad); color:#071018; box-shadow: 0 12px 30px #00ffa633;
+      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    .btn:hover{ transform: translateY(-2px); box-shadow: 0 16px 44px #00ffa655; filter:saturate(1.1) }
+    .btn:active{ transform: translateY(0) scale(.98) }
+    .btn-ghost{
+      background:transparent; color:#cfe0ff; border:1px solid #243459; box-shadow:none;
+    }
+    .btn-ghost:hover{ background:#0f1b39; }
+
+    footer{
+      padding:18px 28px 28px 28px; color:#8ea6d4; font-size:.9rem;
+      display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+      border-top:1px dashed #1b2847;
+    }
+    .note{max-width:70ch}
+    .note strong{ color:#cfe0ff }
+
+    .shake{ animation:shake .3s linear 0s 1 }
+    @keyframes shake{
+      0%{ transform:translateX(0) } 25%{ transform:translateX(-6px) }
+      50%{ transform:translateX(6px) } 75%{ transform:translateX(-4px) } 100%{ transform:translateX(0) }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Fan Hub UI Demo">
+      <header>
+        <div class="brand">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2l9 5v10l-9 5-9-5V7l9-5z" stroke="#6bdcff" stroke-width="1.4"/>
+            <circle cx="12" cy="12" r="3.4" fill="#7b5cff"/>
+          </svg>
+          <span>Fan Hub</span>
+        </div>
+        <span class="badge" aria-hidden="true">UI Demo</span>
+      </header>
+
+      <section class="hero">
+        <h1 class="h1">Sleek Roblox-themed UI Demo</h1>
+        <p class="sub">Enter your Roblox username and choose a demo amount to experience the flow. This is a design demo only — no real currency is generated.</p>
+      </section>
+
+      <div class="grid">
+        <div class="panel" id="panel-form">
+          <label class="label" for="username">Roblox Username</label>
+          <input id="username" class="input" name="username" type="text" placeholder="e.g., Builderman" autocomplete="off" maxlength="30" />
+
+          <label class="label" style="margin-top:14px">Choose Amount (Demo)</label>
+          <div class="amounts" role="radiogroup" aria-label="Amount options">
+            <!-- Amount Card -->
+            <div class="amt">
+              <input type="radio" name="amount" id="amt-400" value="400" checked />
+              <label for="amt-400" tabindex="0"><span>400</span> <span class="chip">demo</span></label>
+            </div>
+            <div class="amt">
+              <input type="radio" name="amount" id="amt-800" value="800" />
+              <label for="amt-800" tabindex="0"><span>800</span> <span class="chip">demo</span></label>
+            </div>
+            <div class="amt">
+              <input type="radio" name="amount" id="amt-1700" value="1700" />
+              <label for="amt-1700" tabindex="0"><span>1,700</span> <span class="chip">demo</span></label>
+            </div>
+            <div class="amt">
+              <input type="radio" name="amount" id="amt-4500" value="4500" />
+              <label for="amt-4500" tabindex="0"><span>4,500</span> <span class="chip">demo</span></label>
+            </div>
+          </div>
+
+          <div class="cta">
+            <button class="btn-ghost" type="button" id="resetBtn">Reset</button>
+            <button class="btn" type="button" id="continueBtn" aria-label="Continue to next step">Continue</button>
+          </div>
+        </div>
+
+        <div class="panel" aria-live="polite">
+          <p class="label">What is this?</p>
+          <p style="color:#cddcff; margin:0">
+            This is a <strong>UI/UX demonstration</strong> for a two-step flow with username + amount selection and a timed progress screen.
+            It <strong>does not</strong> generate Robux or interact with Roblox. Use responsibly and transparently.
+          </p>
+        </div>
+      </div>
+
+      <footer>
+        <div class="note">
+          <strong>Disclaimer:</strong> This is a visual demo for educational/portfolio purposes only. No affiliation with Roblox.
+        </div>
+        <div>© <span id="year"></span> Fan Hub</div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const $ = sel => document.querySelector(sel);
+    const byId = id => document.getElementById(id);
+
+    byId('year').textContent = new Date().getFullYear();
+
+    const usernameEl = byId('username');
+    const continueBtn = byId('continueBtn');
+    const resetBtn = byId('resetBtn');
+
+    // Keyboard support: hitting Enter on inputs triggers continue
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter') continueBtn.click();
+    });
+
+    continueBtn.addEventListener('click', ()=>{
+      const username = usernameEl.value.trim();
+      const amount = (new FormData(document.body)).get('amount') || '400';
+
+      if(!username){
+        usernameEl.classList.remove('shake'); void usernameEl.offsetWidth; usernameEl.classList.add('shake');
+        usernameEl.focus();
+        return;
+      }
+      // Encode and go to verify page with params
+      const params = new URLSearchParams({ u: username, a: amount });
+      window.location.href = `verify.html?${params.toString()}`;
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      usernameEl.value = '';
+      byId('amt-400').checked = true;
+      usernameEl.focus();
+    });
+
+    // Make label focusable select on Enter/Space
+    document.querySelectorAll('.amt label').forEach(lab=>{
+      lab.addEventListener('keydown', (e)=>{
+        if(e.key === ' ' || e.key === 'Enter'){
+          e.preventDefault();
+          const forId = lab.getAttribute('for');
+          const input = byId(forId);
+          input.checked = true;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
