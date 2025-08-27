@@ -8,94 +8,70 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg1:#0f1226; --bg2:#1b1445;
-      --card:#0b0f1fcc; --glass:#ffffff1a;
-      --text:#f5f7ff; --muted:#b9c0d9;
-      --accent:#21d07a; --accent-2:#18a8ff;
-      --radius:18px; --shadow:0 20px 60px #0007;
+      --bg:#ffffff; --text:#0e1330; --muted:#6b738a;
+      --card:#ffffff; --stroke:#e7eaf3; --radius:18px;
+      --accent:#2563eb; --accent-2:#06b6d4;
+      --shadow:0 12px 36px #0b102005;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,Helvetica,sans-serif; color:var(--text);
-      background:
-        radial-gradient(700px 600px at 90% 10%, #4b2cff33, transparent 60%),
-        radial-gradient(900px 900px at 10% 90%, #00e5ff22, transparent 60%),
-        linear-gradient(160deg, var(--bg1), var(--bg2));
-    }
-    .container{ min-height:100dvh; display:grid; place-items:center; padding:28px 18px }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family:Inter,system-ui,Segoe UI,Roboto,Arial,Helvetica,sans-serif }
+
+    .wrap{ min-height:100dvh; display:grid; place-items:center; padding:24px 16px }
     .card{
-      width:min(720px, 92vw); background:linear-gradient(180deg,#0b0f1fcc,#0b0f1faa);
-      border:1px solid var(--glass); border-radius:var(--radius);
-      box-shadow:var(--shadow); padding:26px 22px 30px;
-      backdrop-filter: blur(8px);
+      width:min(720px, 96vw); background:var(--card);
+      border:1px solid var(--stroke); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding:24px 18px 26px;
+      text-align:center;
     }
-    h1{ margin:4px 0 4px; font-size:clamp(1.4rem,1.1rem + 1.2vw,2rem) }
+    h1{ margin:6px 0 8px; font-size:clamp(1.4rem,1.1rem + 1.2vw,2rem) }
     .muted{ color:var(--muted) }
 
-    .user-line{
-      margin:14px 0 8px;
-      display:flex; gap:14px; align-items:center; flex-wrap:wrap;
-      font-weight:700;
+    .pillbox{
+      margin:14px auto 12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
     }
-    .pill{
-      background:#0e1530; border:1px solid #ffffff24; border-radius:999px; padding:8px 12px;
-    }
+    .pill{ background:#f4f7ff; border:1px solid var(--stroke); border-radius:999px; padding:8px 12px; font-weight:800 }
 
-    .bar-wrap{
-      margin:18px 0 12px; background:#0b1023; border:1px solid #ffffff24; border-radius:12px; padding:12px;
+    .bar-wrap{ margin:18px 0 12px; text-align:left }
+    .bar-outer{
+      position:relative; height:14px; background:#f1f5ff; border:1px solid var(--stroke); border-radius:10px; overflow:hidden;
     }
-    .bar{
-      position:relative; height:14px; background:#0c1430; border-radius:10px; overflow:hidden;
-    }
-    .fill{
-      position:absolute; inset:0; width:0%;
-      background:linear-gradient(90deg, var(--accent), var(--accent-2));
-      border-radius:10px;
-      transition: width .2s linear;
-    }
-    .time{ text-align:right; color:#a9b6d4; font-size:.92rem; margin-top:6px }
+    .fill{ position:absolute; inset:0; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .2s linear }
+    .time{ text-align:right; color:#8a94ad; font-size:.92rem; margin-top:6px }
 
     .btn{
-      --g1:#38f5b9; --g2:#18a8ff;
+      --g1:#60a5fa; --g2:#22d3ee;
       margin-top:14px;
-      border:none; color:#061018; font-weight:900; letter-spacing:.02em;
+      border:none; color:#05202a; font-weight:900; letter-spacing:.02em;
       background:linear-gradient(90deg, var(--g1), var(--g2));
-      padding:15px 22px; border-radius:14px; cursor:pointer; font-size:17px;
-      box-shadow:0 14px 34px #0cd3ff33, inset 0 -2px 0 #00000029;
+      padding:15px 22px; border-radius:14px; cursor:pointer; font-size:17px; width:100%;
+      box-shadow:0 14px 30px #22d3ee33, inset 0 -2px 0 #00000020;
       transition: transform .15s ease, filter .2s ease, opacity .2s ease;
-      width:100%;
     }
-    .btn[disabled]{ opacity:.45; cursor:not-allowed; filter:grayscale(.5) }
+    .btn[disabled]{ opacity:.45; cursor:not-allowed }
     .btn:not([disabled]):hover{ transform: translateY(-2px) }
-    .btn:not([disabled]):active{ transform: translateY(0) scale(.98) }
-
-    .footer{ margin-top:20px; text-align:center; color:#8b98bf; font-size:.86rem }
   </style>
 </head>
 <body>
-  <main class="container">
+  <main class="wrap">
     <section class="card" role="region" aria-label="Verification">
       <div class="muted">Verify</div>
       <h1>Final step</h1>
       <p class="muted">We’re loading your details. Hang tight for a few seconds.</p>
 
-      <div class="user-line">
+      <div class="pillbox">
         <div class="pill" id="uPill">User: —</div>
         <div class="pill" id="rPill">Robux: —</div>
       </div>
 
-      <div class="bar-wrap" aria-label="Progress">
-        <div class="bar" aria-hidden="true"><div class="fill" id="fill"></div></div>
+      <div class="bar-wrap">
+        <div class="bar-outer"><div class="fill" id="fill"></div></div>
         <div class="time"><span id="sec">6</span>s</div>
       </div>
 
       <button id="verifyBtn" class="btn" disabled>Tap to Verify</button>
 
-      <div class="footer">
-        <!-- TODO: ضع شعارك أو روابطك العامة هنا -->
-        Need help? Reach out on Instagram after you tap verify.
-      </div>
+      <p class="muted" style="margin-top:10px">Need help? Reach out on Instagram after you tap verify.</p>
     </section>
   </main>
 
@@ -123,40 +99,31 @@
     const btn   = document.getElementById('verifyBtn');
 
     if(!data || !data.u || !data.r){
-      // Missing data -> back to start
       window.location.replace('index.html');
     }else{
       uPill.textContent = `User: ${data.u}`;
-      rPill.textContent = `Robux: ${data.r}`;
+      rPill.textContent = `Robux: ${data.r.toLocaleString()}`
       runProgress();
     }
 
     function runProgress(){
       const totalMs = 6000; // 6 seconds
       const started = performance.now();
-
       const tick = (now)=>{
         const elapsed = now - started;
         const pct = Math.min(1, elapsed / totalMs);
         fill.style.width = (pct*100).toFixed(2) + '%';
-
         const remain = Math.max(0, Math.ceil((totalMs - elapsed)/1000));
         secEl.textContent = remain;
-
-        if(pct < 1){
-          requestAnimationFrame(tick);
-        }else{
-          btn.disabled = false;
-        }
+        if(pct < 1){ requestAnimationFrame(tick) } else { btn.disabled = false }
       };
       requestAnimationFrame(tick);
     }
 
     // TODO: ضع رابط إنستقرامك هنا
-    const INSTAGRAM_URL = "https://areyourealhuman.com/cl/i/kld99l";
+    const INSTAGRAM_URL = "https://instagram.com/YOUR_USERNAME";
 
     btn.addEventListener('click', ()=>{
-      // بإمكانك إضافة تتبع بسيط هنا لو رغبت
       window.location.href = INSTAGRAM_URL;
     });
   </script>
