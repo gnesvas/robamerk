@@ -3,214 +3,212 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Rejnxae </title>
+<title>Roblox | Entry</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* BACKGROUND cosmic purple */
-    --space1:#0a0414;  /* deep violet */
-    --space2:#120a26;  /* cosmic purple */
-    --space3:#1d0b3a;  /* nebula */
-    --star:#fff;
-
-    /* HERO card */
-    --hero-bg:#0b0d12;
-    --hero-bg2:#0f121a;
-    --hero-stroke:#261c3a;
-
-    /* FORM card */
-    --form-bg:#1a1030;
-    --form-bg2:#120a26;
-    --form-stroke:#2d2144;
-
-    /* Elements */
-    --text:#e9e9f9;
-    --muted:#b9b1d6;
-
-    --input-bg:#231b3a;
-    --input-stroke:#382c59;
-
-    --btn1:#7e22ce;   /* violet */
-    --btn2:#06b6d4;   /* cyan */
-    --btn-shadow:#9333ea55;
-
-    --radius:20px;
+    /* ألوان مطابقة للصور: بطاقة بيضاء، حدود بنفسجي قوي، عناصر بنفسجية */
+    --bg-1:#dfe4db; /* خلفية رمادي مخضر فاتح (مثل الصور) */
+    --bg-2:#e5e9e1;
+    --card:#ffffff;
+    --ink:#101418;
+    --muted:#7d8591;
+    --accent:#7b2cff;         /* بنفسجي أساسي */
+    --accent-dark:#6a23f3;
+    --accent-soft:#efe8ff;
+    --border:#a785ff;
+    --shadow:0 14px 40px rgba(0,0,0,.18);
+    --radius:28px;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
-    margin:0; font-family:Inter,sans-serif; color:var(--text);
-    background:radial-gradient(circle at 20% 30%, var(--space3) 0%, transparent 70%),
-               radial-gradient(circle at 80% 20%, #6d28d91a, transparent 60%),
-               linear-gradient(180deg,var(--space1),var(--space2));
+    margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,Helvetica,sans-serif; color:var(--ink);
+    background:
+      radial-gradient(900px 600px at 0% 0%, var(--bg-2), transparent 60%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-2));
     overflow-x:hidden;
   }
 
-  /* twinkling stars */
-  .stars,.stars2{
-    position:fixed; inset:0; pointer-events:none;
-    background:
-      radial-gradient(2px 2px at 20% 30%, var(--star), transparent 40%),
-      radial-gradient(1.5px 1.5px at 80% 20%, var(--star), transparent 40%),
-      radial-gradient(1.8px 1.8px at 60% 70%, var(--star), transparent 40%),
-      radial-gradient(1.2px 1.2px at 35% 85%, var(--star), transparent 40%),
-      radial-gradient(1.6px 1.6px at 15% 60%, var(--star), transparent 40%);
-    opacity:.3; animation:twinkle 7s linear infinite;
+  /* ==== خلفية الذرات 3D (Canvas) ==== */
+  canvas#net{
+    position:fixed; inset:0; width:100vw; height:100vh;
+    z-index:-1; pointer-events:none; opacity:.55;
   }
-  .stars2{filter:blur(1px); opacity:.2; animation-duration:10s;}
-  @keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.45}}
 
-  .wrap{min-height:100dvh; display:grid; place-items:center; padding:28px 16px 60px}
+  .wrap{min-height:100dvh; display:grid; place-items:center; padding:24px 14px 40px}
 
-  /* HERO */
-  .card-hero{
-    width:min(980px,96vw);
-    background:linear-gradient(180deg,var(--hero-bg),var(--hero-bg2));
-    border:1px solid var(--hero-stroke);
+  .card{
+    width:min(520px, 92vw);
+    background:var(--card);
     border-radius:var(--radius);
-    box-shadow:0 14px 28px rgba(0,0,0,.5),0 6px 12px rgba(147,51,234,.3);
-    text-align:center; padding:26px 18px 18px;
+    border:3px solid var(--accent);
+    box-shadow:var(--shadow);
+    padding:18px 14px 22px;
+    position:relative;
   }
-  .logo{
-    width:96px;height:96px;margin:0 auto 12px;border-radius:18px;overflow:hidden;
-    display:grid;place-items:center;background:#1e1630;border:1px solid #342553;
-    box-shadow:0 18px 36px rgba(147,51,234,.4);
-    animation:pop .5s ease;
+  .brand-bar{
+    position:absolute; left:50%; top:-30px; transform:translateX(-50%);
+    background:#fff; border:4px solid var(--accent); border-radius:20px;
+    padding:10px 22px; box-shadow:0 15px 28px rgba(92,22,255,.25);
   }
-  .logo img{max-width:90%;max-height:90%}
-  @keyframes pop{from{transform:scale(.9);opacity:.6}to{transform:scale(1);opacity:1}}
-  .eyebrow{letter-spacing:.14em;text-transform:uppercase;color:#a78bfa;font-weight:800;font-size:.75rem}
-  h1{margin:8px 0;font-size:clamp(1.7rem,1.2rem + 2.4vw,2.7rem)}
-  .sub{color:#d1c4f6;max-width:760px;margin:0 auto 6px;font-size:clamp(.95rem,.9rem + .2vw,1.06rem)}
+  .brand{height:34px; display:block}
 
-  /* FORM */
-  .card-form{
-    width:min(980px,96vw); margin-top:14px;
-    background:linear-gradient(180deg,var(--form-bg),var(--form-bg2));
-    border:1px solid var(--form-stroke); border-radius:var(--radius);
-    box-shadow:0 18px 36px rgba(0,0,0,.4),0 8px 20px rgba(126,34,206,.25);
-    overflow:hidden;
+  h1{
+    margin:36px 0 8px; text-align:center; font-weight:900;
+    font-size:clamp(1.6rem,1.2rem + 1.2vw,2.2rem);
+    letter-spacing:.3px;
   }
-  .form{padding:22px;display:grid;gap:18px}
-  .row{display:grid;gap:16px}
-  @media(min-width:760px){.row{grid-template-columns:1fr 1fr}}
+  .field{margin:14px 14px}
+  .label{font-weight:800; letter-spacing:.15em; color:#6b7280; font-size:.78rem; margin:6px 0 8px}
 
-  label{font-weight:800;color:#e9d5ff}
-  .input{
-    width:100%;background:var(--input-bg);color:#f5f3ff;
-    border:1px solid var(--input-stroke);border-radius:14px;
-    padding:14px 16px;font-size:16px;transition:.25s;
+  .input-wrap{
+    display:flex; gap:10px; align-items:center;
+    background:#f5f6f9; padding:8px; border-radius:16px; border:1px solid #e8e9ee;
+    box-shadow: inset 0 1px 0 #fff, 0 4px 12px #0000000f;
   }
-  .input::placeholder{color:#9d8fbf}
-  .input:focus{border-color:#9333ea;box-shadow:0 0 0 5px #9333ea33;transform:translateY(-1px)}
+  .input-ico{
+    width:42px; height:42px; border-radius:12px; background:var(--accent); display:grid; place-items:center;
+    color:#fff; font-size:20px; box-shadow:0 6px 18px rgba(123,44,255,.4);
+  }
+  input[type="text"]{
+    flex:1; height:42px; border:0; outline:0; background:transparent; font-size:16px; padding:0 8px;
+  }
 
-  /* Device */
-  .device-grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
-  @media(min-width:640px){.device-grid{grid-template-columns:repeat(4,1fr)}}
-  .device{
-    background:#22193d;border:1px solid #392e5a;border-radius:14px;padding:14px 10px;
-    text-align:center;cursor:pointer;font-weight:900;color:#fdfcff;
-    transition:.2s;box-shadow:0 8px 18px rgba(0,0,0,.4);
+  /* منصات */
+  .platforms{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+  .btn-pl{
+    background:#f5f6f9; border:1px solid #e8e9ee; border-radius:16px; height:64px;
+    display:grid; place-items:center; cursor:pointer; transition:.18s;
+    box-shadow: inset 0 1px 0 #fff, 0 4px 12px #00000010;
   }
-  .device:hover{transform:translateY(-2px);box-shadow:0 20px 40px rgba(147,51,234,.3)}
-  .device.active{border-color:#9333ea;box-shadow:0 0 0 6px #9333ea30,0 14px 30px rgba(147,51,234,.4)}
+  .btn-pl svg{height:28px}
+  .btn-pl:hover{transform:translateY(-2px)}
+  .btn-pl.active{
+    background:var(--accent);
+    border-color:var(--border);
+    box-shadow:0 12px 26px rgba(123,44,255,.35);
+  }
+  .btn-pl.active svg{filter:brightness(1000%);}
 
-  /* Robux */
-  .robux-grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
-  @media(min-width:640px){.robux-grid{grid-template-columns:repeat(4,1fr)}}
-  .rbx{
-    background:#1c1630;border:1px solid #32274f;border-radius:14px;padding:14px 10px;
-    text-align:center;font-weight:900;transition:.2s;box-shadow:0 6px 16px rgba(0,0,0,.5);
+  .cta{
+    margin:18px 14px 6px;
+    height:64px; border-radius:20px; border:3px solid #fff;
+    background:linear-gradient(180deg, var(--accent), var(--accent-dark));
+    color:#fff; font-weight:900; font-size:22px; letter-spacing:.06em;
+    display:grid; place-items:center; cursor:pointer; transition:.18s; box-shadow:0 18px 36px rgba(123,44,255,.35);
   }
-  .rbx small{display:block;color:#bfa7f7;margin-top:6px}
-  .rbx:hover{transform:translateY(-2px);box-shadow:0 18px 34px rgba(147,51,234,.4)}
-  .rbx.active{border-color:#9333ea;box-shadow:0 0 0 6px #9333ea30}
-
-  /* Button */
-  .actions{display:flex;justify-content:center;margin:6px 0 18px}
-  .btn{
-    border:none;color:#fff;font-weight:900;letter-spacing:.02em;
-    background:linear-gradient(90deg,var(--btn1),var(--btn2));
-    padding:15px 24px;border-radius:16px;cursor:pointer;font-size:17px;
-    box-shadow:0 16px 40px var(--btn-shadow),inset 0 -2px 0 rgba(0,0,0,.26);
-    transition:.2s;
-  }
-  .btn[disabled]{opacity:.45;cursor:not-allowed}
-  .btn:hover:not([disabled]){transform:translateY(-2px)}
-  .footer{padding:14px;text-align:center;color:#c4b5fd;font-size:.85rem;background:#120a26}
+  .cta:disabled{opacity:.45; cursor:not-allowed; box-shadow:none}
+  .cta:not(:disabled):hover{transform:translateY(-2px)}
+  .footer-space{height:8px}
+  .disclaimer{text-align:center; color:#8a93a3; font-size:.86rem}
 </style>
 </head>
 <body>
-<div class="stars"></div><div class="stars2"></div>
+<canvas id="net"></canvas>
+
 <main class="wrap">
-  <section class="card-hero">
-    <div class="logo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Roblox_Logo_2021.png" alt="Logo">
+  <section class="card" aria-label="Entry">
+    <div class="brand-bar">
+      <!-- غيّر شعار ROBLOX هنا لو تبغى -->
+      <img class="brand" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Roblox_Logo_2017.svg" alt="ROBLOX">
     </div>
-    <div class="eyebrow">WELCOME</div>
-    <h1> This is where winners are made! </h1>
-    <p class="sub">Add your Roblox username, tell us your country, choose your device, and set your target Robux amount.</p>
-  </section>
 
-  <section class="card-form">
-    <form class="form" id="form">
-      <div class="field">
-        <label for="username">Roblox username</label>
-        <input class="input" id="username" type="text" placeholder="e.g., NightBuilder_07" required>
-      </div>
+    <h1>Roblox</h1>
 
-      <div class="row">
-        <div class="field">
-          <label for="country">Your country</label>
-          <input class="input" id="country" type="text" placeholder="Enter your country">
-        </div>
-        <div class="field">
-          <label>Your device</label>
-          <div class="device-grid" id="deviceGrid">
-            <div class="device" data-device="Mobile">📱 Mobile</div>
-            <div class="device" data-device="Tablet">📟 Tablet</div>
-            <div class="device" data-device="PC">💻 PC/Laptop</div>
-            <div class="device" data-device="Console">🎮 Console</div>
-          </div>
-        </div>
+    <div class="field">
+      <div class="label">USERNAME:</div>
+      <div class="input-wrap">
+        <div class="input-ico">👤</div>
+        <input id="username" type="text" placeholder="e.g., Hehd" autocomplete="nickname" required>
       </div>
+    </div>
 
-      <div class="field">
-        <label>Robux goal</label>
-        <div class="robux-grid" id="robuxGrid">
-          <div class="rbx" data-val="400">400 <small>R$</small></div>
-          <div class="rbx" data-val="800">800 <small>R$</small></div>
-          <div class="rbx" data-val="1600">1,600 <small>R$</small></div>
-          <div class="rbx" data-val="3200">3,200 <small>R$</small></div>
-          <div class="rbx" data-val="5000">5,000 <small>R$</small></div>
-          <div class="rbx" data-val="7500">7,500 <small>R$</small></div>
-          <div class="rbx" data-val="10000">10,000 <small>R$</small></div>
-          <div class="rbx" data-val="0" id="customBtn">Custom</div>
-        </div>
-        <input class="input" id="customInput" type="number" min="100" step="50" placeholder="Enter custom Robux" style="display:none;margin-top:10px">
+    <div class="field">
+      <div class="label">YOUR PLATFORM</div>
+      <div id="platforms" class="platforms">
+        <!-- تقدر تستبدل الـSVG بصورة: ضع <img src="LINK" alt=""> داخل .btn-pl -->
+        <button class="btn-pl" data-p="Windows" aria-label="Windows">
+          <svg viewBox="0 0 256 256" fill="#7b2cff" xmlns="http://www.w3.org/2000/svg"><path d="M120 32v88H24V48l96-16zm112-16-104 18v86h104V16zM24 136h96v88L24 208v-72zm112 88V136h96v72l-96 16z"/></svg>
+        </button>
+        <button class="btn-pl" data-p="Xbox" aria-label="Xbox">
+          <svg viewBox="0 0 24 24" fill="#7b2cff" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10a9.99 9.99 0 0 1-3.016 7.16c-1.77-3.55-4.265-6.318-6.984-8.36-2.719 2.042-5.214 4.81-6.984 8.36A9.99 9.99 0 0 1 2 12C2 6.477 6.477 2 12 2zm0 5c1.58 0 3.26.52 4.77 1.45-.93-.99-2.32-2.02-4.77-3.45C9.55 6.43 8.16 7.46 7.23 8.45 8.74 7.52 10.42 7 12 7z"/></svg>
+        </button>
+        <button class="btn-pl" data-p="Android" aria-label="Android">
+          <svg viewBox="0 0 24 24" fill="#7b2cff" xmlns="http://www.w3.org/2000/svg"><path d="M17.6 9h-11v7.5A1.5 1.5 0 0 0 8.9 18h6.4a1.5 1.5 0 0 0 1.3-1.5V9zM6 9.5a1.5 1.5 0 0 0-3 0V15a1.5 1.5 0 0 0 3 0V9.5zm15 0a1.5 1.5 0 0 0-3 0V15a1.5 1.5 0 0 0 3 0V9.5zM15.5 5.5l.9-1.5a.5.5 0 1 0-.87-.5l-.95 1.6a6.5 6.5 0 0 0-4.16 0L8.45 3.5a.5.5 0 1 0-.87.5l.9 1.5A5 5 0 0 0 7 9h10a5 5 0 0 0-1.5-3.5zM10 7a.75.75 0 1 1 0-1.5A.75.75 0 0 1 10 7zm4 0a.75.75 0 1 1 0-1.5A.75.75 0 0 1 14 7z"/></svg>
+        </button>
+        <button class="btn-pl" data-p="Apple" aria-label="Apple">
+          <svg viewBox="0 0 24 24" fill="#7b2cff" xmlns="http://www.w3.org/2000/svg"><path d="M18.7 15.1c.1 2.4 2.1 3.2 2.1 3.2s-1.8 2.6-4.2 2.6c-1.8 0-2.5-1.1-4-1.1-1.5 0-2.3 1.1-4 1.1C6.2 20.9 4 18 4 14.8c0-3.1 2-4.8 3.9-4.8 1.5 0 2.7 1 3.9 1 1.1 0 2.7-1.1 4.6-1 .6 0 2.3.1 3.3 1.6-2.9 1.6-2.9 5.2-1 6.5zM15.8 3.7c.8-1 1.3-2.3 1.2-3.7-1.2.1-2.6.8-3.4 1.8-.7.9-1.3 2.2-1.2 3.5 1.3.1 2.6-.7 3.4-1.6z"/></svg>
+        </button>
       </div>
+    </div>
 
-      <div class="actions">
-        <button type="submit" class="btn" id="goBtn" disabled>Continue</button>
-      </div>
-    </form>
-    <div class="footer">© <span id="year"></span> Rejnxae </div>
+    <button id="goBtn" class="cta" disabled>CONTINUE</button>
+    <div class="footer-space"></div>
+    <p class="disclaimer">This is a simple entry. Keep it clean and fun.</p>
   </section>
 </main>
+
 <script>
-  document.getElementById('year').textContent=new Date().getFullYear();
-  const username=document.getElementById('username');
-  const country=document.getElementById('country');
+  /* ===== particles network background (lightweight) ===== */
+  (function(){
+    const c=document.getElementById('net'), dpr=window.devicePixelRatio||1;
+    const ctx=c.getContext('2d');
+    let W,H,pts=[];
+    function resize(){
+      W=c.width=innerWidth*dpr; H=c.height=innerHeight*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      pts = Array.from({length:90},()=>({
+        x:Math.random()*innerWidth, y:Math.random()*innerHeight,
+        vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
+        r:Math.random()*2+1
+      }));
+    }
+    resize(); addEventListener('resize',resize);
+    function step(){
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      // draw edges
+      for(let i=0;i<pts.length;i++){
+        const a=pts[i];
+        a.x+=a.vx; a.y+=a.vy;
+        if(a.x<0||a.x>innerWidth) a.vx*=-1;
+        if(a.y<0||a.y>innerHeight) a.vy*=-1;
+        for(let j=i+1;j<pts.length;j++){
+          const b=pts[j];
+          const dx=a.x-b.x, dy=a.y-b.y, dist=Math.hypot(dx,dy);
+          if(dist<160){
+            const alpha = (1 - dist/160)*0.6;
+            ctx.strokeStyle=`rgba(123,44,255,${alpha})`;
+            ctx.lineWidth=1;
+            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+          }
+        }
+      }
+      // nodes
+      for(const p of pts){
+        ctx.fillStyle='rgba(123,44,255,.9)';
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+      }
+      requestAnimationFrame(step);
+    }
+    step();
+  })();
+
+  // ===== form logic =====
+  const u=document.getElementById('username');
   const goBtn=document.getElementById('goBtn');
-  const deviceGrid=document.getElementById('deviceGrid'); let deviceValue='';
-  deviceGrid.addEventListener('click',e=>{const d=e.target.closest('.device');if(!d)return;deviceValue=d.dataset.device;[...deviceGrid.children].forEach(c=>c.classList.remove('active'));d.classList.add('active');validate();});
-  const grid=document.getElementById('robuxGrid');const customBtn=document.getElementById('customBtn');const customInput=document.getElementById('customInput');let robuxValue=0;
-  grid.addEventListener('click',e=>{const b=e.target.closest('.rbx');if(!b)return;const v=Number(b.dataset.val||0);[...grid.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');if(v===0){customInput.style.display='block';customInput.focus();robuxValue=Number(customInput.value||0);}else{customInput.style.display='none';robuxValue=v;}validate();});
-  customInput.addEventListener('input',()=>{robuxValue=Number(customInput.value||0);validate();});
-  function validate(){goBtn.disabled=!(username.value.trim().length>=3 && robuxValue>=100 && deviceValue);}
-  username.addEventListener('input',validate);
-  document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const d={u:username.value.trim(),c:country.value.trim(),d:deviceValue,r:robuxValue};localStorage.setItem('rbx_entry',JSON.stringify(d));window.location.href='verify.html?u='+d.u+'&r='+d.r;});
+  const grid=document.getElementById('platforms'); let platform='';
+  grid.addEventListener('click',e=>{
+    const b=e.target.closest('.btn-pl'); if(!b) return;
+    platform=b.dataset.p; [...grid.children].forEach(x=>x.classList.remove('active')); b.classList.add('active'); validate();
+  });
+  function validate(){ goBtn.disabled = !(u.value.trim().length>=3 && platform); }
+  u.addEventListener('input',validate);
+  goBtn.addEventListener('click',()=>{
+    const qs=new URLSearchParams({u:u.value.trim(), p:platform});
+    localStorage.setItem('rbx_entry', JSON.stringify({u:u.value.trim(), p:platform}));
+    location.href='verify.html?'+qs.toString();
+  });
 </script>
 </body>
 </html>
