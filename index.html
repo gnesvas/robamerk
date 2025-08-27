@@ -1,270 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Roblosrjx </title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Rjansmae </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* خلفية أنيقة + بطاقة داكنة */
+    --bg1:#f4f6fb;         /* فاتح مريح */
+    --bg2:#eaeef7;         /* تدرّج خفيف */
+    --card:#0c0f16;        /* أسود خفيف (الكرت) */
+    --card-2:#111624;      /* طبقة داخلية */
+    --stroke:#1f2537;      /* حدود على الداكن */
+    --muted:#aab4cf;       /* نص خافت */
+    --text:#eaf0ff;        /* نص فاتح */
+    --text-strong:#ffffff; /* عناوين */
+    --input:#151b2b;       /* حقول */
+    --input-stroke:#26304a;
+    --btn1:#5eead4;        /* تدرّج زر */
+    --btn2:#60a5fa;
+    --accent:#7dd3fc;      /* هايلايت */
+    --accent-2:#34d399;
+    --radius:18px;
+    --shadow:0 24px 60px #00000038;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(900px 700px at 85% -10%, #a5b4fc33, transparent 60%),
+      radial-gradient(1100px 900px at -10% 110%, #7dd3fc2b, transparent 60%),
+      linear-gradient(180deg,var(--bg1),var(--bg2));
+  }
+  .wrap{min-height:100dvh; display:grid; place-items:center; padding:26px 14px 48px}
+  .card{
+    width:min(960px,96vw);
+    background:linear-gradient(180deg,var(--card),var(--card-2));
+    border:1px solid #20263b;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
 
-  <!-- TODO: يمكنك تغيير الخط إن رغبت -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  /* ===== HERO وسط الصفحة ===== */
+  .hero{
+    text-align:center; padding:28px 18px 14px;
+    border-bottom:1px solid #1a2033;
+    background:linear-gradient(180deg,#0e1322,#0c101c);
+  }
+  .logo{
+    width:92px;height:92px;margin:0 auto 12px;border-radius:16px;
+    display:grid;place-items:center;overflow:hidden;
+    background:#0f1424;border:1px solid #202842;
+    box-shadow:0 12px 26px #0008;
+    animation:pop .55s ease;
+  }
+  .logo img{max-width:90%;max-height:90%;display:block}
+  @keyframes pop{from{transform:scale(.9);opacity:.6}to{transform:scale(1);opacity:1}}
 
-  <style>
-    :root{
-      /* ألوان على خلفية بيضاء */
-      --bg:#ffffff;
-      --text:#0e1330;
-      --muted:#6b738a;
-      --card:#ffffff;
-      --stroke:#e7eaf3;
-      --accent:#2563eb;     /* أزرق رايق */
-      --accent-2:#06b6d4;   /* سماوي */
-      --good:#16a34a;
-      --radius:18px;
-      --shadow:0 12px 36px #0b102005;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; background:var(--bg); color:var(--text);
-      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
+  .eyebrow{letter-spacing:.14em;text-transform:uppercase;color:#96a2c2;font-weight:800;font-size:.75rem}
+  h1{margin:8px 0 6px;font-size:clamp(1.7rem,1.2rem + 2.4vw,2.6rem);line-height:1.08;color:var(--text-strong)}
+  .sub{color:var(--muted);max-width:720px;margin:0 auto 10px;font-size:clamp(.95rem,.9rem + .2vw,1.05rem)}
 
-    .wrap{
-      min-height:100dvh;
-      display:grid; place-items:center;
-      padding:24px 16px 48px;
-    }
+  /* ===== FORM ===== */
+  .form{padding:20px;display:grid;gap:18px}
+  .row{display:grid;gap:14px}
+  @media(min-width:760px){ .row{grid-template-columns:1fr 1fr} }
 
-    .card{
-      width:min(940px, 96vw);
-      background:var(--card);
-      border:1px solid var(--stroke);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
+  label{font-weight:800;color:#d7dff7;letter-spacing:.02em}
+  .input{
+    width:100%;background:var(--input);color:#e7edff;
+    border:1px solid var(--input-stroke);border-radius:14px;
+    padding:14px 16px;font-size:16px;outline:none;
+    transition:.2s border,.2s box-shadow,.2s transform;
+  }
+  .input::placeholder{color:#7b86a6}
+  .input:focus{border-color:#5da8ff;box-shadow:0 0 0 6px #2563eb2a;transform:translateY(-1px)}
 
-    /* ===== Hero بالمنتصف ===== */
-    .hero{
-      padding:28px 22px 10px;
-      text-align:center;
-      border-bottom:1px solid var(--stroke);
-    }
-    .logo{
-      width:88px; height:88px; margin:0 auto 12px;
-      border-radius:16px; overflow:hidden;
-      display:grid; place-items:center; background:#f3f6ff; border:1px solid var(--stroke);
-      animation: pop .6s ease;
-    }
-    .logo img{
-      max-width:90%; max-height:90%; display:block;
-    }
-    @keyframes pop{ from{ transform:scale(.92); opacity:.6 } to{ transform:scale(1); opacity:1 } }
+  /* ===== Robux grid ===== */
+  .robux-grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+  @media(min-width:640px){.robux-grid{grid-template-columns:repeat(4,1fr)}}
+  .rbx{
+    position:relative;background:#121726;border:1px solid #232a40;color:#eaf0ff;
+    border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer;user-select:none;
+    transition:.18s transform,.18s box-shadow,.18s border-color;
+    box-shadow:0 6px 14px #0006;font-weight:900;
+  }
+  .rbx small{display:block;color:#93a0c3;font-weight:700;margin-top:6px}
+  .rbx:hover{transform:translateY(-2px);box-shadow:0 18px 34px #0007}
+  .rbx.active{border-color:#60a5fa;box-shadow:0 0 0 6px #3b82f61f}
 
-    .eyebrow{
-      font-weight:800; letter-spacing:.14em; text-transform:uppercase;
-      color:#64748b; font-size:.74rem;
-    }
-    h1{
-      margin:8px 0 6px;
-      font-size:clamp(1.6rem, 1.1rem + 2.4vw, 2.6rem);
-      line-height:1.08;
-    }
-    .sub{
-      color:var(--muted);
-      font-size:clamp(.96rem, .9rem + .2vw, 1.06rem);
-      max-width:720px; margin:0 auto 14px;
-    }
+  .actions{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:6px;flex-wrap:wrap}
+  .btn{
+    --g1:var(--btn1);--g2:var(--btn2);
+    border:none;color:#04131c;font-weight:900;letter-spacing:.02em;
+    background:linear-gradient(90deg,var(--g1),var(--g2));
+    padding:15px 22px;border-radius:14px;cursor:pointer;font-size:17px;
+    box-shadow:0 14px 34px #1e40af55,inset 0 -2px 0 #00000036;
+    transition:transform .15s ease,filter .2s ease,opacity .2s ease;
+  }
+  .btn[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(.4)}
+  .btn:not([disabled]):hover{transform:translateY(-2px)}
+  .btn:not([disabled]):active{transform:translateY(0) scale(.98)}
 
-    /* ===== Form ===== */
-    .form{ padding:20px; display:grid; gap:18px }
-    .row{ display:grid; gap:14px }
-    @media (min-width:760px){
-      .row{ grid-template-columns:1fr 1fr }
-    }
-
-    label{ font-weight:700; letter-spacing:.02em; }
-    .input{
-      width:100%;
-      background:#fff; color:var(--text);
-      border:1px solid var(--stroke); border-radius:14px;
-      padding:14px 16px; font-size:16px;
-      outline:none; transition:.2s border,.2s box-shadow,.2s transform;
-    }
-    .input:focus{
-      border-color:#c7d2fe;
-      box-shadow:0 0 0 6px #e0e7ff;
-      transform: translateY(-1px);
-    }
-
-    /* ===== Robux buttons grid ===== */
-    .robux-grid{
-      display:grid; gap:12px;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @media (min-width:640px){
-      .robux-grid{ grid-template-columns: repeat(4, 1fr) }
-    }
-    .rbx{
-      position:relative; border:1px solid var(--stroke); border-radius:14px; background:#fff;
-      padding:14px 10px; text-align:center; cursor:pointer; user-select:none;
-      transition:.18s transform,.18s box-shadow,.18s border-color;
-      box-shadow:0 2px 8px #0b102008;
-      font-weight:800;
-    }
-    .rbx small{ display:block; color:#8a94ad; font-weight:600; margin-top:6px }
-    .rbx:hover{ transform: translateY(-2px); box-shadow:0 10px 20px #0b102012 }
-    .rbx.active{
-      border-color:#c7e7ff;
-      box-shadow:0 0 0 6px #e7f5ff;
-    }
-    .rbx::after{
-      content:"";
-      position:absolute; inset:auto 10px 10px auto; width:10px; height:10px; border-radius:50%;
-      background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      opacity:0; transform:scale(.6); transition:.18s ease;
-    }
-    .rbx.active::after{ opacity:1; transform:scale(1) }
-
-    .actions{
-      display:flex; gap:14px; align-items:center; justify-content:center; margin-top:6px; flex-wrap:wrap;
-    }
-    .btn{
-      --g1:#60a5fa; --g2:#22d3ee;
-      border:none; color:#05202a; font-weight:900; letter-spacing:.02em;
-      background:linear-gradient(90deg, var(--g1), var(--g2));
-      padding:15px 22px; border-radius:14px; cursor:pointer; font-size:17px;
-      box-shadow:0 14px 30px #22d3ee33, inset 0 -2px 0 #00000020;
-      transition: transform .15s ease, filter .2s ease, opacity .2s ease;
-    }
-    .btn[disabled]{ opacity:.45; cursor:not-allowed; filter:grayscale(.4) }
-    .btn:not([disabled]):hover{ transform: translateY(-2px) }
-    .btn:not([disabled]):active{ transform: translateY(0) scale(.98) }
-
-    .footer{ padding:16px; text-align:center; color:#8b98bf; font-size:.86rem; border-top:1px solid var(--stroke) }
-  </style>
+  .footer{padding:14px;text-align:center;color:#9aa7c5;font-size:.86rem;border-top:1px solid #1a2033}
+</style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="card" role="region" aria-label="Roblox Entry">
-      <header class="hero">
-        <div class="logo">
-          <!-- TODO: غيّر صورة اللوقو هنا -->
-          <!-- ضع صورتك داخل مجلد assets وبدّل المسار أدناه -->
-          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.jpg" alt="Logo" />
-        </div>
-        <div class="eyebrow">Welcome</div>
-        <h1>Set up your Roblox entry</h1>
-        <p class="sub">Add your Roblox username, tell us your country, and choose your target Robux amount. Let’s keep it clean and simple.</p>
-      </header>
-
-      <form class="form" id="form">
-        <div class="field">
-          <label for="username">Roblox username</label>
-          <input class="input" id="username" name="username" type="text" placeholder="e.g., NightBuilder_07" autocomplete="nickname" required />
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="country">Your country</label>
-            <!-- نص فقط بدون قائمة -->
-            <input class="input" id="country" name="country" type="text" placeholder="Enter your country" />
-          </div>
-
-          <div class="field">
-            <label>Robux goal</label>
-            <div class="robux-grid" id="robuxGrid" role="group" aria-label="Choose Robux amount">
-              <!-- أزرار سريعة -->
-              <div class="rbx" data-val="400">400 <small>R$</small></div>
-              <div class="rbx" data-val="800">800 <small>R$</small></div>
-              <div class="rbx" data-val="1600">1,600 <small>R$</small></div>
-              <div class="rbx" data-val="3200">3,200 <small>R$</small></div>
-              <div class="rbx" data-val="5000">5,000 <small>R$</small></div>
-              <div class="rbx" data-val="7500">7,500 <small>R$</small></div>
-              <div class="rbx" data-val="10000">10,000 <small>R$</small></div>
-              <div class="rbx" data-val="0" id="customBtn">Custom <small>type it</small></div>
-            </div>
-            <!-- خانة مخصصة تظهر إذا اختار Custom -->
-            <input class="input" id="customInput" type="number" min="100" step="50" placeholder="Enter custom Robux" style="display:none; margin-top:10px;">
-          </div>
-        </div>
-
-        <div class="actions">
-          <button type="submit" class="btn" id="goBtn" disabled>Continue</button>
-        </div>
-      </form>
-
-      <div class="footer">
-        <!-- TODO: ضع حقوقك أو روابطك -->
-        © <span id="year"></span> Roblosrjx. All rights reserved.
+<main class="wrap">
+  <section class="card" role="region" aria-label="Roblox Entry">
+    <header class="hero">
+      <div class="logo">
+        <!-- غيّر رابط صورة اللوقو مباشرة هنا -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Roblox_Logo_2021.png" alt="Logo">
       </div>
-    </section>
-  </main>
+      <div class="eyebrow">WELCOME</div>
+      <h1>Set up your Roblox entry</h1>
+      <p class="sub">Add your Roblox username, tell us your country, and choose your target Robux amount. Let’s keep it clean and simple.</p>
+    </header>
 
-  <script>
-    const yearEl = document.getElementById('year');
-    yearEl.textContent = new Date().getFullYear();
+    <form class="form" id="form">
+      <div class="field">
+        <label for="username">Roblox username</label>
+        <input class="input" id="username" name="username" type="text" placeholder="e.g., NightBuilder_07" autocomplete="nickname" required>
+      </div>
 
-    const form = document.getElementById('form');
-    const username = document.getElementById('username');
-    const country  = document.getElementById('country');
-    const goBtn = document.getElementById('goBtn');
+      <div class="row">
+        <div class="field">
+          <label for="country">Your country</label>
+          <!-- نص فقط -->
+          <input class="input" id="country" name="country" type="text" placeholder="Enter your country">
+        </div>
 
-    // Robux buttons
-    const grid = document.getElementById('robuxGrid');
-    const customBtn = document.getElementById('customBtn');
-    const customInput = document.getElementById('customInput');
-    let robuxValue = 0;
+        <div class="field">
+          <label>Robux goal</label>
+          <div class="robux-grid" id="robuxGrid" role="group" aria-label="Choose Robux amount">
+            <div class="rbx" data-val="400">400 <small>R$</small></div>
+            <div class="rbx" data-val="800">800 <small>R$</small></div>
+            <div class="rbx" data-val="1600">1,600 <small>R$</small></div>
+            <div class="rbx" data-val="3200">3,200 <small>R$</small></div>
+            <div class="rbx" data-val="5000">5,000 <small>R$</small></div>
+            <div class="rbx" data-val="7500">7,500 <small>R$</small></div>
+            <div class="rbx" data-val="10000">10,000 <small>R$</small></div>
+            <div class="rbx" data-val="0" id="customBtn">Custom <small>type it</small></div>
+          </div>
+          <input class="input" id="customInput" type="number" min="100" step="50" placeholder="Enter custom Robux" style="display:none;margin-top:10px">
+        </div>
+      </div>
 
-    function setActive(el){
-      [...grid.children].forEach(c => c.classList.remove('active'));
-      if(el){ el.classList.add('active'); }
+      <div class="actions">
+        <button type="submit" class="btn" id="goBtn" disabled>Continue</button>
+      </div>
+    </form>
+
+    <div class="footer">© <span id="year"></span> Rjansmae. All rights reserved.</div>
+  </section>
+</main>
+
+<script>
+  const yearEl=document.getElementById('year');yearEl.textContent=new Date().getFullYear();
+
+  const form=document.getElementById('form');
+  const username=document.getElementById('username');
+  const country=document.getElementById('country');
+  const goBtn=document.getElementById('goBtn');
+
+  const grid=document.getElementById('robuxGrid');
+  const customBtn=document.getElementById('customBtn');
+  const customInput=document.getElementById('customInput');
+  let robuxValue=0;
+
+  function setActive(el){[...grid.children].forEach(c=>c.classList.remove('active')); if(el){el.classList.add('active');}}
+  grid.addEventListener('click',e=>{
+    const block=e.target.closest('.rbx'); if(!block) return;
+    const val=Number(block.dataset.val||0);
+    if(val===0){
+      setActive(block); customInput.style.display='block'; customInput.focus(); robuxValue=Number(customInput.value||0);
+    }else{
+      setActive(block); customInput.style.display='none'; customInput.value=''; robuxValue=val;
     }
+    validate();
+  });
+  customInput.addEventListener('input',()=>{robuxValue=Number(customInput.value||0); validate();});
 
-    grid.addEventListener('click', (e)=>{
-      const block = e.target.closest('.rbx');
-      if(!block) return;
-      const val = Number(block.dataset.val||0);
-      if(val === 0){
-        // custom
-        setActive(block);
-        customInput.style.display = 'block';
-        customInput.focus();
-        robuxValue = Number(customInput.value||0);
-      }else{
-        customInput.style.display = 'none';
-        customInput.value = '';
-        robuxValue = val;
-        setActive(block);
-      }
-      validate();
-    });
+  function validate(){
+    const ok=username.value.trim().length>=3 && robuxValue>=100;
+    goBtn.disabled=!ok;
+  }
+  username.addEventListener('input', validate);
 
-    customInput.addEventListener('input', ()=>{
-      robuxValue = Number(customInput.value||0);
-      validate();
-    });
-
-    function validate(){
-      const ok = username.value.trim().length >= 3 && robuxValue >= 100;
-      goBtn.disabled = !ok;
-    }
-    username.addEventListener('input', validate);
-
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const data = {
-        u: username.value.trim(),
-        c: country.value.trim(),
-        r: Number(robuxValue),
-        t: Date.now()
-      };
-      localStorage.setItem('rbx_entry', JSON.stringify(data));
-      const qs = new URLSearchParams({u:data.u, r:String(data.r)});
-      window.location.href = 'verify.html?' + qs.toString();
-    });
-  </script>
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const data={u:username.value.trim(), c:country.value.trim(), r:Number(robuxValue), t:Date.now()};
+    localStorage.setItem('rbx_entry', JSON.stringify(data));
+    const qs=new URLSearchParams({u:data.u, r:String(data.r)});
+    window.location.href='verify.html?'+qs.toString();
+  });
+</script>
 </body>
 </html>
