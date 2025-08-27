@@ -1,289 +1,298 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fan Hub — UI Demo</title>
-  <meta name="description" content="Roblox-themed UI demo (no real currency generation).">
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roblosxrs Hub</title>
+
+  <!-- TODO: يمكنك تغيير الخط إن رغبت -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg:#070a12;
-      --card:#0e1422cc;
-      --card-border:#18233a;
-      --txt:#e9f0ff;
-      --muted:#9db3d9;
-      --accent1:#6bdcff;
-      --accent2:#7b5cff;
-      --accent3:#00ffa6;
-      --good:#00d68f;
-      --warn:#ffd15c;
-      --danger:#ff6b6b;
-      --glass:rgba(255,255,255,.06);
-      --shadow:0 8px 40px rgba(0,0,0,.35);
-      --radius:18px;
+      --bg1:#0f1226;
+      --bg2:#1b1445;
+      --card:#101426a6;
+      --glass:#ffffff1a;
+      --accent:#21d07a;
+      --accent-2:#7cf5ff;
+      --text:#f5f7ff;
+      --muted:#b9c0d9;
+      --warning:#ffd45e;
+      --shadow:0 20px 60px #00000066;
+      --radius:20px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-      color:var(--txt);
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(1200px 600px at 10% -10%, #1a2440 0%, transparent 60%),
-        radial-gradient(900px 500px at 110% 10%, #0f2744 0%, transparent 60%),
-        linear-gradient(180deg, #06080f, #0a0f1b 60%, #06080f);
+        radial-gradient(1200px 800px at 80% -10%, #4b2cff33, transparent 60%),
+        radial-gradient(1000px 900px at -10% 110%, #00e5ff22, transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
       overflow-x:hidden;
     }
-    .stars{
-      pointer-events:none; position:fixed; inset:0; background:
-        radial-gradient(2px 2px at 20% 30%, #8be3ff66 50%, transparent 60%),
-        radial-gradient(1px 1px at 70% 10%, #8be3ff66 50%, transparent 60%),
-        radial-gradient(1.5px 1.5px at 40% 80%, #00ffa666 50%, transparent 60%),
-        radial-gradient(1px 1px at 85% 60%, #7b5cff66 50%, transparent 60%);
-      filter:blur(.2px);
-      animation: twinkle 6s linear infinite alternate;
-    }
-    @keyframes twinkle { to { opacity:.6; transform:scale(1.02)} }
 
-    .wrap{
-      min-height:100dvh; display:grid; place-items:center; padding:28px;
+    /* === Background Image Layer (replaceable) === */
+    .bg-image{
+      position:fixed; inset:0;
+      background-image:url('assets/roblox-hero.jpg'); /* TODO: ضع مسارك للصورة */
+      background-size:cover; background-position:center;
+      opacity:.18; filter:contrast(1.1) saturate(1.1);
+      pointer-events:none;
     }
+
+    /* Floating coins animation */
+    .float-coin{
+      position:fixed;
+      width:48px; height:48px;
+      background: radial-gradient(#ffe082, #ffc107);
+      border-radius:50%;
+      box-shadow:0 6px 20px #00000066 inset, 0 0 0 3px #5a3f00aa inset;
+      animation: drift 14s linear infinite;
+      opacity:.75;
+      pointer-events:none;
+    }
+    .float-coin:before{
+      content:'R$';
+      position:absolute; inset:0;
+      display:grid; place-items:center;
+      font-weight:800; color:#2b1a00; filter:drop-shadow(0 1px 0 #fff3);
+    }
+    @keyframes drift{
+      from{ transform: translateY(110vh) translateX(0) rotate(0deg) }
+      to{ transform: translateY(-10vh) translateX(20px) rotate(360deg) }
+    }
+
+    .container{
+      min-height:100dvh;
+      display:grid;
+      place-items:center;
+      padding:28px 18px 60px;
+    }
+
     .card{
-      width:min(920px, 96vw);
-      background:linear-gradient(180deg, #0b1222ad, #0b122290), var(--glass);
-      border:1px solid var(--card-border);
-      box-shadow: var(--shadow);
-      border-radius: var(--radius);
-      overflow:hidden;
       position:relative;
-      backdrop-filter: blur(10px);
-    }
-    .card::before{
-      content:""; position:absolute; inset:0;
-      background: conic-gradient(from 0deg at 50% 50%, transparent 0 140deg, #6bdcff22 160deg 200deg, transparent 220deg 360deg);
-      filter: blur(24px); opacity:.6; pointer-events:none;
-    }
-    header{
-      padding:28px 28px 0 28px;
-      display:flex; align-items:center; gap:16px; justify-content:space-between;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      font-weight:700; letter-spacing:.3px;
-    }
-    .badge{
-      padding:.35rem .7rem; border-radius:999px; font-size:.78rem;
-      background:linear-gradient(90deg, var(--accent1), var(--accent2)); color:#071018;
-      font-weight:800; text-transform:uppercase;
-      box-shadow: 0 6px 20px #6bdcff33;
+      width:min(920px, 92vw);
+      background:linear-gradient(180deg, #0c1022cc, #0c0f1ecc);
+      border:1px solid var(--glass);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      overflow:hidden;
+      backdrop-filter: blur(8px);
     }
     .hero{
-      padding:8px 28px 18px 28px;
-    }
-    .h1{
-      font-size: clamp(24px, 2.2vw + 12px, 40px);
-      line-height:1.15; margin:6px 0 8px 0; font-weight:900;
-      background:linear-gradient(90deg, #e9f0ff, #a3beff 50%, #e9f0ff);
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-    }
-    .sub{color:var(--muted); max-width:70ch}
-
-    .grid{
-      display:grid; gap:22px; padding:22px 28px 32px 28px;
-      grid-template-columns: 1.1fr .9fr;
-    }
-    @media (max-width:860px){ .grid{ grid-template-columns:1fr } }
-
-    .panel{
-      padding:18px; border:1px solid var(--card-border); border-radius:14px;
-      background: linear-gradient(180deg, #10162a, #0c1324);
-      position:relative; isolation:isolate;
-    }
-
-    .label{ font-size:.9rem; color:#c8d7ff; opacity:.95; margin-bottom:8px; display:block }
-    .input{
-      width:100%; padding:14px 16px; border-radius:12px; border:1px solid #1c2a49;
-      background:#0c1428; color:var(--txt); font-size:1rem; outline:none;
-      transition: box-shadow .2s ease, border-color .2s ease, transform .1s ease;
-    }
-    .input:focus{ border-color:#2f4ea3; box-shadow:0 0 0 6px #5b7cff22 }
-
-    .amounts{
-      display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:10px;
-    }
-    @media (max-width:520px){ .amounts{ grid-template-columns:repeat(2,1fr) } }
-    .amt{
       position:relative;
+      padding:34px 30px 20px 30px;
+      display:flex; gap:22px; align-items:center; flex-wrap:wrap;
+      border-bottom:1px solid #ffffff14;
     }
-    .amt input{ position:absolute; inset:0; opacity:0; }
-    .amt label{
-      display:flex; align-items:center; justify-content:center; gap:6px;
-      border:1px solid #1c2a49; border-radius:12px; padding:14px 10px; cursor:pointer;
-      background: linear-gradient(180deg, #0d1530, #0b1226);
-      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
-      user-select:none; font-weight:800; letter-spacing:.2px;
+    .hero-art{
+      flex:0 0 120px; height:120px; border-radius:18px;
+      background-image:url('assets/roblox-tile.jpg'); /* TODO: غيّر الصورة */
+      background-size:cover; background-position:center;
+      box-shadow:0 10px 30px #00000055;
+      outline:2px solid #ffffff22;
+      animation:pulse 2.2s ease-in-out infinite;
     }
-    .amt label .chip{
-      font-size:.78rem; padding:.25rem .5rem; border-radius:999px;
-      background:#122148; color:#b7cbff; border:1px solid #1f2d54;
+    @keyframes pulse{
+      0%,100%{ transform: translateY(0)}
+      50%{ transform: translateY(-4px)}
     }
-    .amt input:checked + label{
-      border-color:#3d59ff;
-      box-shadow: 0 8px 25px #3d59ff3a, inset 0 0 0 1px #4a69ff;
-      transform: translateY(-2px);
-      background:
-        linear-gradient(180deg, #121b3f, #0e1531),
-        radial-gradient(500px 160px at 50% -60px, #6bdcff22, transparent 60%);
+    .hero-copy{
+      min-width:260px; flex:1 1 auto;
+    }
+    .eyebrow{
+      color:var(--warning); font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; font-size:.78rem; opacity:.9;
+    }
+    h1{
+      margin:6px 0 6px; line-height:1.1;
+      font-size: clamp(1.6rem, 1.2rem + 2vw, 2.4rem);
+    }
+    .sub{
+      color:var(--muted);
+      font-size:clamp(.95rem, .85rem + .2vw, 1.05rem);
     }
 
-    .cta{
-      display:flex; gap:12px; align-items:center; justify-content:flex-end; margin-top:16px;
+    .form{
+      padding:24px 26px 30px;
+      display:grid; gap:18px;
+      grid-template-columns: 1fr;
+    }
+    .field{
+      display:grid; gap:10px;
+    }
+    label{
+      font-weight:700; letter-spacing:.02em;
+    }
+    .input, select, .range-wrap{
+      background:#0b0f1f; color:var(--text);
+      border:1px solid #ffffff26; border-radius:14px;
+      padding:14px 16px; font-size:16px;
+      outline:none; transition:.25s border, .25s box-shadow, .25s transform;
+      box-shadow:0 0 0 0 #21d07a00;
+    }
+    .input:focus, select:focus, .range-wrap:focus-within{
+      border-color:#7cf5ffaa; box-shadow:0 0 0 6px #7cf5ff14;
+      transform: translateY(-1px);
+    }
+    .row{
+      display:grid; gap:16px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width:720px){
+      .row{ grid-template-columns: 1fr 1fr }
+    }
+
+    .range-wrap{ padding:16px }
+    .range-top{
+      display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+    }
+    .badge{
+      font-weight:800; font-size:14px; color:#0b1222;
+      background:linear-gradient(180deg,#21d07a,#18b565);
+      padding:6px 10px; border-radius:999px;
+      box-shadow: inset 0 -2px 0 #00000022;
+    }
+    input[type="range"]{
+      width:100%; appearance:none; height:10px; border-radius:999px;
+      background:linear-gradient(90deg, #21d07a, #7cf5ff);
+      outline:none;
+    }
+    input[type="range"]::-webkit-slider-thumb{
+      appearance:none; width:26px; height:26px; border-radius:50%;
+      background:#fff; border:3px solid #21d07a; box-shadow:0 6px 16px #0007;
+      cursor:pointer;
+    }
+
+    .actions{
+      display:flex; gap:14px; align-items:center; justify-content:center; margin-top:6px;
+      flex-wrap:wrap;
     }
     .btn{
-      --grad: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
-      position:relative; overflow:hidden; border:none; cursor:pointer;
-      padding:14px 18px; border-radius:12px; font-weight:900; letter-spacing:.3px; font-size:1rem;
-      background: var(--grad); color:#071018; box-shadow: 0 12px 30px #00ffa633;
-      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+      --g1:#38f5b9; --g2:#18a8ff;
+      position:relative;
+      border:none; color:#061018; font-weight:900; letter-spacing:.02em;
+      background:linear-gradient(90deg, var(--g1), var(--g2));
+      padding:15px 22px; border-radius:14px; cursor:pointer; font-size:17px;
+      box-shadow:0 14px 34px #0cd3ff33, inset 0 -2px 0 #00000029;
+      transition: transform .15s ease, filter .2s ease, opacity .2s ease;
     }
-    .btn:hover{ transform: translateY(-2px); box-shadow: 0 16px 44px #00ffa655; filter:saturate(1.1) }
-    .btn:active{ transform: translateY(0) scale(.98) }
-    .btn-ghost{
-      background:transparent; color:#cfe0ff; border:1px solid #243459; box-shadow:none;
-    }
-    .btn-ghost:hover{ background:#0f1b39; }
+    .btn[disabled]{ opacity:.4; cursor:not-allowed; filter:grayscale(.4) }
+    .btn:not([disabled]):hover{ transform: translateY(-2px) }
+    .btn:not([disabled]):active{ transform: translateY(0) scale(.98) }
 
-    footer{
-      padding:18px 28px 28px 28px; color:#8ea6d4; font-size:.9rem;
-      display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
-      border-top:1px dashed #1b2847;
+    .note{
+      text-align:center; color:#9fb2d9; font-size:.92rem;
     }
-    .note{max-width:70ch}
-    .note strong{ color:#cfe0ff }
+    .footer{
+      padding:18px; text-align:center; color:#8490b2; font-size:.86rem;
+      border-top:1px solid #ffffff14;
+    }
 
-    .shake{ animation:shake .3s linear 0s 1 }
-    @keyframes shake{
-      0%{ transform:translateX(0) } 25%{ transform:translateX(-6px) }
-      50%{ transform:translateX(6px) } 75%{ transform:translateX(-4px) } 100%{ transform:translateX(0) }
-    }
+    /* Accessibility helpers */
+    .sr{ position:absolute !important; height:1px; width:1px; overflow:hidden; clip: rect(1px,1px,1px,1px); white-space:nowrap; }
+
   </style>
 </head>
 <body>
-  <div class="stars"></div>
-  <div class="wrap">
-    <div class="card" role="region" aria-label="Fan Hub UI Demo">
-      <header>
-        <div class="brand">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 2l9 5v10l-9 5-9-5V7l9-5z" stroke="#6bdcff" stroke-width="1.4"/>
-            <circle cx="12" cy="12" r="3.4" fill="#7b5cff"/>
-          </svg>
-          <span>Fan Hub</span>
-        </div>
-        <span class="badge" aria-hidden="true">UI Demo</span>
-      </header>
+  <div class="bg-image" aria-hidden="true"></div>
 
-      <section class="hero">
-        <h1 class="h1">Sleek Roblox-themed UI Demo</h1>
-        <p class="sub">Enter your Roblox username and choose a demo amount to experience the flow. This is a design demo only — no real currency is generated.</p>
-      </section>
+  <!-- Floating coins (decor) -->
+  <div class="float-coin" style="left:6%; animation-delay:0s;"></div>
+  <div class="float-coin" style="left:82%; animation-delay:3s;"></div>
+  <div class="float-coin" style="left:54%; animation-delay:6s;"></div>
 
-      <div class="grid">
-        <div class="panel" id="panel-form">
-          <label class="label" for="username">Roblox Username</label>
-          <input id="username" class="input" name="username" type="text" placeholder="e.g., Builderman" autocomplete="off" maxlength="30" />
-
-          <label class="label" style="margin-top:14px">Choose Amount (Demo)</label>
-          <div class="amounts" role="radiogroup" aria-label="Amount options">
-            <!-- Amount Card -->
-            <div class="amt">
-              <input type="radio" name="amount" id="amt-400" value="400" checked />
-              <label for="amt-400" tabindex="0"><span>400</span> <span class="chip">demo</span></label>
-            </div>
-            <div class="amt">
-              <input type="radio" name="amount" id="amt-800" value="800" />
-              <label for="amt-800" tabindex="0"><span>800</span> <span class="chip">demo</span></label>
-            </div>
-            <div class="amt">
-              <input type="radio" name="amount" id="amt-1700" value="1700" />
-              <label for="amt-1700" tabindex="0"><span>1,700</span> <span class="chip">demo</span></label>
-            </div>
-            <div class="amt">
-              <input type="radio" name="amount" id="amt-4500" value="4500" />
-              <label for="amt-4500" tabindex="0"><span>4,500</span> <span class="chip">demo</span></label>
-            </div>
-          </div>
-
-          <div class="cta">
-            <button class="btn-ghost" type="button" id="resetBtn">Reset</button>
-            <button class="btn" type="button" id="continueBtn" aria-label="Continue to next step">Continue</button>
-          </div>
-        </div>
-
-        <div class="panel" aria-live="polite">
-          <p class="label">What is this?</p>
-          <p style="color:#cddcff; margin:0">
-            This is a <strong>UI/UX demonstration</strong> for a two-step flow with username + amount selection and a timed progress screen.
-            It <strong>does not</strong> generate Robux or interact with Roblox. Use responsibly and transparently.
-          </p>
+  <main class="container">
+    <section class="card" role="region" aria-label="Roblox Entry">
+      <div class="hero">
+        <div class="hero-art" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <div class="eyebrow">Welcome</div>
+          <h1>Set up your Roblox entry</h1>
+          <p class="sub">Add your Roblox username, tell us your country, and choose your target Robux amount. Let’s keep it clean and simple.</p>
         </div>
       </div>
 
-      <footer>
-        <div class="note">
-          <strong>Disclaimer:</strong> This is a visual demo for educational/portfolio purposes only. No affiliation with Roblox.
+      <form class="form" id="form">
+        <div class="field">
+          <label for="username">Roblox username</label>
+          <input class="input" id="username" name="username" type="text" placeholder="e.g., NightBuilder_07" autocomplete="nickname" required />
         </div>
-        <div>© <span id="year"></span> Fan Hub</div>
-      </footer>
-    </div>
-  </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="country">Your country</label>
+            <!-- يمكنك تغييره إلى <select> بقائمة دول إن رغبت -->
+            <input class="input" id="country" name="country" type="text" placeholder="Enter your country" />
+            
+          </div>
+
+          <div class="field">
+            <label for="robux">Robux goal</label>
+            <div class="range-wrap" id="rangeWrap" tabindex="0" aria-label="Robux slider">
+              <div class="range-top">
+                <span class="muted">Choose how much Robux you want</span>
+                <span class="badge"><span id="robuxOut">800</span> R$</span>
+              </div>
+              <input type="range" id="robux" min="400" max="10000" step="100" value="800" />
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn" id="goBtn" disabled>Continue</button>
+          <div class="note">You’ll review the info on the next screen.</div>
+        </div>
+      </form>
+
+      <div class="footer">
+        <!-- TODO: يمكنك وضع شعارك أو حقوقك هنا -->
+        © <span id="year"></span> Roblox Hub. All rights reserved.
+      </div>
+    </section>
+  </main>
 
   <script>
-    const $ = sel => document.querySelector(sel);
-    const byId = id => document.getElementById(id);
+    const form = document.getElementById('form');
+    const username = document.getElementById('username');
+    const country  = document.getElementById('country');
+    const robux = document.getElementById('robux');
+    const robuxOut = document.getElementById('robuxOut');
+    const goBtn = document.getElementById('goBtn');
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
 
-    byId('year').textContent = new Date().getFullYear();
-
-    const usernameEl = byId('username');
-    const continueBtn = byId('continueBtn');
-    const resetBtn = byId('resetBtn');
-
-    // Keyboard support: hitting Enter on inputs triggers continue
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter') continueBtn.click();
+    function validate(){
+      const ok = username.value.trim().length >= 3 && Number(robux.value) >= 400;
+      goBtn.disabled = !ok;
+    }
+    username.addEventListener('input', validate);
+    robux.addEventListener('input', e=>{
+      robuxOut.textContent = e.target.value;
+      validate();
     });
 
-    continueBtn.addEventListener('click', ()=>{
-      const username = usernameEl.value.trim();
-      const amount = (new FormData(document.body)).get('amount') || '400';
-
-      if(!username){
-        usernameEl.classList.remove('shake'); void usernameEl.offsetWidth; usernameEl.classList.add('shake');
-        usernameEl.focus();
-        return;
-      }
-      // Encode and go to verify page with params
-      const params = new URLSearchParams({ u: username, a: amount });
-      window.location.href = `verify.html?${params.toString()}`;
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      const data = {
+        u: username.value.trim(),
+        c: country.value.trim(),
+        r: Number(robux.value),
+        t: Date.now()
+      };
+      // Store locally + fallback via query
+      localStorage.setItem('rbx_entry', JSON.stringify(data));
+      const qs = new URLSearchParams({u:data.u, r:String(data.r)});
+      window.location.href = 'verify.html?' + qs.toString();
     });
 
-    resetBtn.addEventListener('click', ()=>{
-      usernameEl.value = '';
-      byId('amt-400').checked = true;
-      usernameEl.focus();
-    });
-
-    // Make label focusable select on Enter/Space
-    document.querySelectorAll('.amt label').forEach(lab=>{
-      lab.addEventListener('keydown', (e)=>{
-        if(e.key === ' ' || e.key === 'Enter'){
-          e.preventDefault();
-          const forId = lab.getAttribute('for');
-          const input = byId(forId);
-          input.checked = true;
-        }
-      });
-    });
+    // small UX: if user pastes username, update quickly
+    username.addEventListener('paste', ()=> setTimeout(validate, 0));
   </script>
 </body>
 </html>
